@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Fermented Food Recipes | NutriTrack+</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -21,45 +20,93 @@
   --shadow:rgba(0,0,0,.45);
   --hover:rgba(16,185,129,.25);
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Plus Jakarta Sans',sans-serif
+}
+
 body{
   background:#020617;
   color:var(--text);
-  padding:120px 30px 30px;
+  padding:110px 30px 30px;
 }
+
+/* ---------- NAV ---------- */
 .nav{
-  position:fixed;top:20px;left:30px;right:30px;
-  display:flex;justify-content:space-between;align-items:center;
+  position:fixed;
+  top:20px;
+  left:20px;
+  right:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  z-index:1000;
 }
-.logo{font-size:24px;font-weight:800;color:var(--primary)}
-.nav-links{display:flex;gap:14px}
+
+.logo{
+  font-size:22px;
+  font-weight:800;
+  color:var(--primary)
+}
+
+.nav-links{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
 .nav-links a{
-  padding:12px 18px;border-radius:16px;
+  padding:10px 16px;
+  border-radius:14px;
   background:rgba(255,255,255,.05);
-  text-decoration:none;color:var(--dim);font-weight:600
+  text-decoration:none;
+  color:var(--dim);
+  font-weight:600;
+  font-size:14px;
 }
+
 .nav-links .active{
   background:linear-gradient(90deg,var(--primary),var(--primary-dark));
   color:#fff
 }
-h1{ font-size:2.2rem; }
-p{ font-size:1rem; }
+
+/* ---------- CONTENT ---------- */
+h1{
+  font-size:2.2rem;
+  margin-bottom:20px;
+}
 
 .card{
-  max-width:1200px;margin:auto;
-  background:var(--card);padding:28px;
-  border-radius:28px;box-shadow:0 20px 40px var(--shadow)
+  max-width:1200px;
+  margin:auto;
+  background:var(--card);
+  padding:28px;
+  border-radius:28px;
+  box-shadow:0 20px 40px var(--shadow)
 }
+
 input{
-  width:100%;padding:14px 18px;border-radius:16px;
-  border:none;background:var(--glass);color:var(--text);
-  margin-bottom:25px
+  width:100%;
+  padding:14px 18px;
+  border-radius:16px;
+  border:none;
+  background:var(--glass);
+  color:var(--text);
+  margin-bottom:25px;
+  font-size:16px;
 }
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:20px
 }
+
 .item{
   background:var(--glass);
   border-radius:22px;
@@ -67,51 +114,84 @@ input{
   cursor:pointer;
   transition:.3s
 }
+
 .item:hover{
   transform:translateY(-6px);
   box-shadow:0 25px 40px var(--hover)
 }
-.item small{color:var(--dim)}
-.modal{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;align-items:center;justify-content:center;
-}
-.modal-box{
-  background:var(--card);
-  max-width:600px;width:90%;
-  padding:30px;border-radius:26px
-}
-.modal-box button{
-  margin-top:20px;width:100%;padding:14px;
-  border:none;border-radius:16px;
-  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
-  color:#fff;font-weight:700
+
+.item small{
+  color:var(--dim)
 }
 
-button, input{
-  padding:12px 16px;
+/* ---------- MODAL ---------- */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-box{
+  background:var(--card);
+  max-width:600px;
+  width:100%;
+  max-height:90vh;
+  overflow-y:auto;
+  padding:30px;
+  border-radius:26px
+}
+
+.modal-box button{
+  margin-top:20px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  font-weight:700;
   font-size:16px;
 }
 
-.close{float:right;cursor:pointer;color:var(--dim)}
+.close{
+  float:right;
+  cursor:pointer;
+  color:var(--dim);
+  font-size:18px;
+}
 
+/* ---------- MOBILE ---------- */
 @media (max-width:768px){
-  nav ul{
-    flex-direction:column;
+  body{
+    padding:140px 16px 20px;
   }
 
-  .hero{
-    flex-direction:column;
+  h1{
+    font-size:1.7rem;
     text-align:center;
   }
 
-  img{
-    max-width:100%;
-    height:auto;
+  .card{
+    padding:20px;
+  }
+
+  .nav{
+    justify-content:center;
+  }
+
+  .logo{
+    width:100%;
+    text-align:center;
+  }
+
+  .nav-links{
+    justify-content:center;
   }
 }
-
 </style>
 </head>
 
@@ -164,7 +244,6 @@ const foods={
     {name:"Kaladi Cheese",ing:"Milk",ratio:"10 : 1",time:"12–24 hours",micro:"Lactococcus",price:150},
     {name:"Gundruk",ing:"Leafy greens, salt",ratio:"10 : 0.2",time:"7–14 days",micro:"L. brevis",price:100}
   ],
-
   international:[
     {name:"Kimchi",ing:"Napa cabbage, salt",ratio:"10 : 0.2",time:"3–7 days",micro:"L. plantarum",price:180},
     {name:"Sauerkraut",ing:"Cabbage, salt",ratio:"10 : 0.2",time:"7–21 days",micro:"Lactobacillus",price:160},

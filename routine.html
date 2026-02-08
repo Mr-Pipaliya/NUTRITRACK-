@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daily Routine | NutriTrack+</title>
@@ -34,42 +32,45 @@ body {
   background: linear-gradient(135deg, #0a0f20, #111827);
   color: var(--text);
   min-height: 100vh;
-  padding-top: 100px;
+  padding-top: 90px;
 }
 
-/* TOPBAR (same as dashboard) */
+/* TOPBAR */
 .topbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 70px;
+  height: 65px;
   background: rgba(2,6,23,0.95);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 0 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   z-index: 1000;
+  flex-wrap: wrap;
 }
 
 .topbar .logo {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
   color: var(--primary);
 }
 
 .topbar .menu {
   display: flex;
-  gap: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .topbar .menu li {
   list-style: none;
-  padding: 10px 18px;
-  border-radius: 12px;
+  padding: 8px 14px;
+  border-radius: 10px;
   cursor: pointer;
   color: var(--dim);
+  font-size: 14px;
   transition: 0.3s;
 }
 
@@ -81,22 +82,21 @@ body {
 
 /* CONTENT */
 .content {
-  max-width: 800px;
+  max-width: 500px;
   margin: auto;
-  padding: 30px;
+  padding: 20px 15px 40px;
 }
 
-h1{ font-size:2.2rem; }
-p{ font-size:1rem; }
-
+h1{ font-size:1.8rem; margin-bottom:12px; }
+p{ font-size:0.95rem; }
 
 /* CARD */
 .card {
   background: var(--card);
-  padding: 28px;
-  border-radius: 22px;
-  margin-bottom: 25px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+  padding: 22px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
   backdrop-filter: blur(10px);
 }
 
@@ -105,10 +105,11 @@ p{ font-size:1rem; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 18px;
-  margin-bottom: 14px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
   background: var(--glass);
-  border-radius: 16px;
+  border-radius: 14px;
+  transition: 0.2s;
 }
 
 .routine-item.completed label {
@@ -117,48 +118,43 @@ p{ font-size:1rem; }
 }
 
 .routine-item label {
-  font-size: 15px;
+  font-size: 14px;
 }
 
 input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   accent-color: var(--primary);
 }
 
 /* NOTES */
 textarea {
   width: 100%;
-  margin-top: 12px;
-  padding: 14px;
-  border-radius: 16px;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 14px;
   border: none;
   outline: none;
   background: var(--glass);
   color: #fff;
   resize: none;
-  min-height: 90px;
+  min-height: 80px;
+  font-size: 14px;
 }
 
 /* BUTTON */
-
-button, input{
-  padding:12px 16px;
-  font-size:16px;
-}
-
-
 .btn {
-  margin-top: 18px;
+  margin-top: 14px;
   width: 100%;
-  padding: 14px;
-  border-radius: 16px;
+  padding: 12px;
+  border-radius: 14px;
   border: none;
   background: linear-gradient(90deg, var(--primary), var(--primary-dark));
   color: #fff;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+  box-shadow: 0 4px 16px rgba(16,185,129,0.4);
+  font-size: 14px;
 }
 
 .btn.secondary {
@@ -168,29 +164,55 @@ button, input{
 /* PROGRESS */
 .progress {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   font-weight: 600;
 }
 
-@media (max-width:768px){
-  nav ul{
-    flex-direction:column;
+/* RESPONSIVE */
+@media (max-width:600px){
+  .topbar{
+    padding: 0 12px;
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
 
-  .hero{
-    flex-direction:column;
-    text-align:center;
+  .topbar .logo{
+    font-size: 20px;
   }
 
-  img{
-    max-width:100%;
-    height:auto;
+  .topbar .menu li{
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .content{
+    padding: 15px 10px 30px;
+  }
+
+  .card{
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  textarea{
+    padding: 10px;
+    font-size: 13px;
+    min-height: 70px;
+  }
+
+  .btn{
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  h1{
+    font-size: 1.5rem;
   }
 }
-
 </style>
 </head>
-
 <body>
 
 <!-- TOPBAR -->
@@ -202,20 +224,17 @@ button, input{
     <li class="active">Routine</li>
     <li onclick="location.href='cart.html'">Cart</li>
     <li onclick="location.href='profile.html'">Profile</li>
-
   </ul>
 </nav>
 
 <!-- CONTENT -->
 <main class="content">
 <h1>Daily Routine</h1>
-
 <div class="progress">
   Progress: <span id="progressText">0%</span>
 </div>
 
 <div class="card">
-
   <div class="routine-item">
     <label>Morning Workout</label>
     <input type="checkbox" id="workout">
@@ -241,7 +260,6 @@ button, input{
   <button class="btn" onclick="saveRoutine()">Save Routine</button>
   <button class="btn secondary" onclick="resetRoutine()">Reset Today</button>
 </div>
-
 </main>
 
 <script>
@@ -253,8 +271,7 @@ function loadRoutine(){
   ids.forEach(id=>{
     const el = document.getElementById(id);
     el.checked = data[id] || false;
-    el.closest(".routine-item")
-      .classList.toggle("completed", el.checked);
+    el.closest(".routine-item").classList.toggle("completed", el.checked);
   });
   notes.value = data.notes || "";
   updateProgress();
@@ -270,8 +287,7 @@ function saveRoutine(){
 function resetRoutine(){
   ids.forEach(id=>{
     document.getElementById(id).checked = false;
-    document.getElementById(id).closest(".routine-item")
-      .classList.remove("completed");
+    document.getElementById(id).closest(".routine-item").classList.remove("completed");
   });
   notes.value = "";
   saveRoutine();
@@ -285,8 +301,7 @@ function updateProgress(){
 
 document.querySelectorAll("input").forEach(cb=>{
   cb.addEventListener("change", e=>{
-    e.target.closest(".routine-item")
-      .classList.toggle("completed", e.target.checked);
+    e.target.closest(".routine-item").classList.toggle("completed", e.target.checked);
     updateProgress();
   });
 });

@@ -19,32 +19,31 @@ body {
   color: var(--text);
   display: flex;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* SIDEBAR */
+/* ---------- SIDEBAR ---------- */
 .sidebar {
   width: 260px;
   background: #020617;
   padding: 25px;
   position: fixed;
+  inset: 0 auto 0 0;
   height: 100vh;
   box-shadow: 3px 0 15px var(--shadow);
+  transition: transform 0.3s ease;
+  z-index: 1000;
 }
 
 .logo {
   font-size: 28px;
   font-weight: 800;
   color: var(--primary);
-  margin: 80px 0 40px 0; /* top 80px, bottom 40px */
+  margin: 80px 0 40px 0;
   text-align: center;
   letter-spacing: 1px;
   text-shadow: 0 2px 6px rgba(16,185,129,0.7), 0 4px 12px rgba(16,185,129,0.35);
   transition: all 0.3s ease;
-}
-
-.logo:hover {
-  text-shadow: 0 4px 12px rgba(16,185,129,0.9), 0 8px 20px rgba(16,185,129,0.5);
-  transform: scale(1.05);
 }
 
 .sidebar li {
@@ -64,18 +63,18 @@ body {
   transform: scale(1.03);
 }
 
-/* CONTENT */
+/* ---------- CONTENT ---------- */
 .content {
   margin-left: 260px;
   padding: 40px;
   width: calc(100% - 260px);
+  transition: 0.3s;
 }
 
-h1{ font-size:2.2rem; }
-p{ font-size:1rem; }
+h1 { font-size: 2.2rem; }
+p { font-size: 1rem; }
 
-
-/* CARDS */
+/* ---------- CARDS ---------- */
 .card {
   background: var(--card);
   padding: 30px;
@@ -89,13 +88,11 @@ p{ font-size:1rem; }
   transform: translateY(-3px);
 }
 
-/* BUTTONS */
-
-button, input{
-  padding:12px 16px;
-  font-size:16px;
+/* ---------- BUTTONS ---------- */
+button, input {
+  padding: 12px 16px;
+  font-size: 16px;
 }
-
 
 .btn {
   background: var(--primary);
@@ -106,7 +103,7 @@ button, input{
   cursor: pointer;
   font-weight: 600;
   width: 100%;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 .btn:hover {
@@ -123,15 +120,10 @@ button, input{
   cursor: pointer;
   font-size: 14px;
   text-align: left;
-  transition: all 0.25s;
+  transition: 0.25s;
 }
 
-.food-btn:hover {
-  background: var(--primary);
-  transform: translateY(-2px) scale(1.02);
-}
-
-/* INPUTS */
+/* ---------- INPUTS ---------- */
 input, select {
   width: 100%;
   padding: 12px;
@@ -144,109 +136,28 @@ input, select {
   font-size: 14px;
 }
 
-/* PROGRESS */
-.progress-ring {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background: conic-gradient(var(--primary) 0deg, #1e293b 0deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 15px auto;
-  box-shadow: 0 0 15px rgba(16,185,129,.5);
-  transition: 0.3s all ease;
-}
+/* ---------- MOBILE ---------- */
+@media (max-width: 768px) {
 
-.progress-ring span {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-/* LOGS */
-.log {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 14px;
-  margin-bottom: 8px;
-  font-size: 14px;
-  background: rgba(255,255,255,.05);
-  border-radius: 10px;
-  transition: 0.2s;
-}
-
-.log button {
-  background: none;
-  border: none;
-  color: #f87171;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-/* WATER */
-.water {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.water button {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.1);
-  background: #020617;
-  color: #fff;
-  cursor: pointer;
-  font-size: 18px;
-  transition: 0.2s;
-}
-
-.water button.active {
-  background: var(--primary);
-  box-shadow: 0 0 12px rgba(16,185,129,.6);
-}
-
-/* SMALL TEXT */
-.small {
-  color: var(--dim);
-  font-size: 13px;
-  margin-top: 10px;
-  display: block;
-  text-align: center;
-}
-
-/* QUICK GRID */
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
-  max-height: 320px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.quick-grid::-webkit-scrollbar {
-  width: 6px;
-}
-
-.quick-grid::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 10px;
-}
-@media (max-width:768px){
-  nav ul{
-    flex-direction:column;
+  .sidebar {
+    transform: translateX(-100%);
   }
 
-  .hero{
-    flex-direction:column;
-    text-align:center;
+  .sidebar.active {
+    transform: translateX(0);
   }
 
-  img{
-    max-width:100%;
-    height:auto;
+  .content {
+    margin-left: 0;
+    width: 100%;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  .card {
+    padding: 20px;
   }
 }

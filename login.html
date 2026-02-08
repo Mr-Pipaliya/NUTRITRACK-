@@ -1,256 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | NutriTrack Pro</title>
 
-  <meta charset="UTF-8" />
-  <title>Login | NutriTrack Pro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
+body { min-height:100vh; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at top, #0f172a, #020617); color:#e5e7eb; }
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
+.login-box { width:100%; max-width:420px; background:rgba(15,23,42,0.9); border-radius:20px; padding:40px; box-shadow:0 30px 80px rgba(0,0,0,0.6); }
+.logo { text-align:center; margin-bottom:25px; }
+.logo h1 { font-size:28px; font-weight:800; color:#38bdf8; }
+.logo p { font-size:14px; opacity:0.7; }
+.field { margin-bottom:18px; }
+.field label { display:block; font-size:13px; margin-bottom:6px; opacity:0.8; }
+.input-wrap { position:relative; }
+.field input { width:100%; padding:14px 44px 14px 14px; border-radius:12px; border:1px solid #1e293b; outline:none; background:#020617; color:#e5e7eb; font-size:14px; }
+.field input:focus { border-color:#38bdf8; }
+.eye { position:absolute; right:14px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:16px; opacity:0.6; user-select:none; }
+.eye:hover { opacity:1; }
+.login-btn { width:100%; padding:15px; border-radius:14px; border:none; font-weight:600; background:linear-gradient(135deg, #38bdf8, #0ea5e9); color:#020617; cursor:pointer; font-size:15px; margin-top:5px; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.login-btn:hover { transform:translateY(-1px); box-shadow:0 10px 25px rgba(56,189,248,0.35); }
+.links { margin-top:18px; text-align:center; font-size:13px; }
+.links a { color:#38bdf8; text-decoration:none; }
+.links a:hover { text-decoration:underline; }
+.error { margin-top:12px; font-size:13px; color:#f87171; text-align:center; display:none; }
+.footer { margin-top:25px; font-size:12px; opacity:0.6; text-align:center; }
+</style>
+</head>
 
-    body {
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #0f172a, #020617);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #e5e7eb;
-    }
+<body>
+<div class="login-box">
+  <div class="logo">
+    <h1>NutriTrack Pro</h1>
+    <p>Login to your dashboard</p>
+  </div>
 
-    .login-box {
-      width: 100%;
-      max-width: 420px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-    }
+  <div class="field">
+    <label>Email</label>
+    <input type="email" id="email" placeholder="you@example.com">
+  </div>
 
-    .logo {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+  <div class="field">
+    <label>Password</label>
+    <div class="input-wrap">
+      <input type="password" id="password" placeholder="••••••••">
+      <span class="eye" onclick="togglePass()">👁️</span>
+    </div>
+  </div>
 
-    .logo h1 {
-      font-size: 28px;
-      font-weight: 800;
-      color: #38bdf8;
-    }
+  <button class="login-btn" onclick="login()">Sign In</button>
 
-    .logo p {
-      font-size: 14px;
-      opacity: 0.7;
-    }
+  <div class="links">
+    <a href="#" onclick="forgot()">Forgot password?</a>
+  </div>
 
-    .field {
-      margin-bottom: 18px;
-    }
+  <div class="error" id="error">Invalid login credentials</div>
 
-    .field label {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 6px;
-      opacity: 0.8;
-    }
+  <div class="footer">
+    © 2026 NutriTrack Pro
+  </div>
+</div>
 
-    .input-wrap {
-      position: relative;
-    }
+<script>
+const FIXED_EMAIL = "hardik@gmail.com";
+const DEFAULT_PASS = "123456";
 
-    .field input {
-      width: 100%;
-      padding: 14px 44px 14px 14px;
-      border-radius: 12px;
-      border: none;
-      outline: none;
-      background: #020617;
-      color: #e5e7eb;
-      border: 1px solid #1e293b;
-      font-size: 14px;
-    }
+// Set default password if not set
+if(!localStorage.getItem("userPass")) localStorage.setItem("userPass", DEFAULT_PASS);
 
-    .field input:focus {
-      border-color: #38bdf8;
-    }
+// Toggle password visibility
+function togglePass() {
+  const p = document.getElementById("password");
+  p.type = p.type === "password" ? "text" : "password";
+}
 
-    .eye {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 16px;
-      opacity: 0.6;
-      user-select: none;
-    }
+// Login function
+function login() {
+  const email = document.getElementById("email").value.trim();
+  const pass = document.getElementById("password").value.trim();
+  const error = document.getElementById("error");
+  const savedPass = localStorage.getItem("userPass");
 
-    .eye:hover {
-      opacity: 1;
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 15px;
-      border-radius: 14px;
-      border: none;
-      font-weight: 600;
-      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-      color: #020617;
-      cursor: pointer;
-      font-size: 15px;
-      margin-top: 5px;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .login-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(56,189,248,0.35);
-    }
-
-    .links {
-      margin-top: 18px;
-      text-align: center;
-      font-size: 13px;
-    }
-
-    .links a {
-      color: #38bdf8;
-      text-decoration: none;
-    }
-
-    .links a:hover {
-      text-decoration: underline;
-    }
-
-    .error {
-      margin-top: 12px;
-      font-size: 13px;
-      color: #f87171;
-      text-align: center;
-      display: none;
-    }
-
-    .footer {
-      margin-top: 25px;
-      font-size: 12px;
-      opacity: 0.6;
-      text-align: center;
-    }
-
-    @media (max-width:768px){
-  nav ul{
-    flex-direction:column;
-  }
-
-  .hero{
-    flex-direction:column;
-    text-align:center;
-  }
-
-  img{
-    max-width:100%;
-    height:auto;
+  if(email === FIXED_EMAIL && pass === savedPass) {
+    localStorage.setItem("loggedIn","true");
+    window.location.href = "index.html";
+  } else {
+    error.style.display = "block";
   }
 }
 
-  </style>
-</head>
-<body>
+// Forgot password
+function forgot() {
+  const enteredEmail = prompt("Enter your Gmail");
+  if(enteredEmail !== FIXED_EMAIL) { alert("This Gmail is not allowed ❌"); return; }
 
-  <div class="login-box">
-    <div class="logo">
-      <h1>NutriTrack Pro</h1>
-      <p>Login to your dashboard</p>
-    </div>
-
-    <div class="field">
-      <label>Email</label>
-      <input type="email" id="email" placeholder="you@example.com">
-    </div>
-
-    <div class="field">
-      <label>Password</label>
-      <div class="input-wrap">  
-        <input type="password" id="password" placeholder="••••••••">
-        <span class="eye" onclick="togglePass()">👁️</span>
-      </div>
-    </div>
-
-    <button class="login-btn" onclick="login()">Sign In</button>
-
-    <div class="links">
-      <a href="#" onclick="forgot()">Forgot password?</a>
-    </div>
-
-    <div class="error" id="error">Invalid login credentials</div>
-
-    <div class="footer">
-      © 2026 NutriTrack Pro
-    </div>
-  </div>
-   
-<script>
-  const FIXED_EMAIL = "hardik@gmail.com";   
-  const DEFAULT_PASS = "123456";
-
-  // First time setup
-  if (!localStorage.getItem("userPass")) {
-    localStorage.setItem("userPass", DEFAULT_PASS);
+  const newPass = prompt("Enter NEW password (min 4 chars)");
+  if(newPass && newPass.length >= 4) {
+    localStorage.setItem("userPass", newPass);
+    alert("Password changed ✔ Now login with same Gmail.");
+  } else {
+    alert("Password minimum 4 characters required.");
   }
+}
 
-  function togglePass() {
-    const p = document.getElementById("password");
-    p.type = p.type === "password" ? "text" : "password"; 
-  }
-
-  function login() {
-    const email = document.getElementById("email").value.trim();
-    const pass = document.getElementById("password").value.trim();
-    const error = document.getElementById("error");
-
-    const savedPass = localStorage.getItem("userPass");
-
-    if (email === FIXED_EMAIL && pass === savedPass) {
-      localStorage.setItem("loggedIn", "true");
-      window.location.href = "index.html";
-    } else {
-      error.style.display = "block";
-    }
-  }    
-
-  function forgot() {
-    const enteredEmail = prompt("Enter your Gmail");
-
-    if (enteredEmail !== FIXED_EMAIL) {
-      alert("This Gmail is not allowed ❌");
-      return;
-    }
-
-    const newPass = prompt("Enter NEW password");
-
-    if (newPass && newPass.length >= 4) {
-      localStorage.setItem("userPass", newPass);
-      alert("Password changed ✔\nNow login with same Gmail.");
-    } else {
-      alert("Password minimum 4 characters hona joie.");
-    }
-  }
-
-  if (localStorage.getItem("loggedIn") === "true") {
-    window.location.href = "index.html";
-  }
-      </script>
- 
-  </body>
-
+// Redirect if already logged in
+if(localStorage.getItem("loggedIn") === "true") window.location.href = "index.html";
+</script>
+</body>
 </html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Checkout | NutriTrack+</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -29,22 +29,28 @@
 body{
   background:radial-gradient(circle at top,#020617,#000);
   color:var(--text);
-  padding:110px 20px 40px;
+  padding:130px 16px 40px;
 }
 
-/* ===== NAV ===== */
+img{
+  max-width:100%;
+  height:auto;
+}
+
+/* ===== NAVBAR ===== */
 .topbar{
   position:fixed;
-  top:20px;
-  left:30px;
-  right:30px;
+  top:16px;
+  left:16px;
+  right:16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   background:rgba(255,255,255,0.05);
   backdrop-filter:blur(12px);
-  padding:16px 24px;
+  padding:16px 22px;
   border-radius:22px;
+  z-index:1000;
 }
 
 .logo{
@@ -54,9 +60,10 @@ body{
 }
 
 .menu{
-  display:flex;
-  gap:14px;
   list-style:none;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
 }
 
 .menu li{
@@ -65,7 +72,7 @@ body{
   background:rgba(255,255,255,0.06);
   color:var(--dim);
   cursor:pointer;
-  transition:0.25s;
+  transition:.25s;
 }
 
 .menu li:hover{
@@ -74,16 +81,19 @@ body{
   transform:translateY(-2px);
 }
 
-/* ===== CHECKOUT ===== */
-h1{ font-size:2.2rem; }
-p{ font-size:1rem; }
+/* ===== HEADING ===== */
+h1{
+  text-align:center;
+  font-size:2.2rem;
+  margin-bottom:20px;
+}
 
-
+/* ===== CHECKOUT CARD ===== */
 .checkout{
   max-width:780px;
   margin:auto;
   background:var(--card);
-  padding:34px;
+  padding:32px;
   border-radius:28px;
   box-shadow:0 30px 60px rgba(0,0,0,0.6);
 }
@@ -104,7 +114,7 @@ p{ font-size:1rem; }
 
 /* ===== PAYMENTS ===== */
 .payments{
-  margin-top:34px;
+  margin-top:32px;
 }
 
 .payment-option{
@@ -123,19 +133,19 @@ p{ font-size:1rem; }
 }
 
 .payment-details{
+  display:none;
   margin-top:12px;
   padding:18px;
   background:var(--glass);
   border-radius:16px;
-  display:none;
 }
 
 .payment-details input{
   width:100%;
-  margin-bottom:12px;
   padding:14px;
-  border-radius:12px;
+  margin-bottom:12px;
   border:none;
+  border-radius:12px;
   outline:none;
 }
 
@@ -144,20 +154,12 @@ p{ font-size:1rem; }
 }
 
 .qr img{
-  width:180px;
-  margin-top:10px;
+  width:160px;
 }
 
 /* ===== BUTTON ===== */
-
-button, input{
-  padding:12px 16px;
-  font-size:16px;
-}
-
-
-.pay-now{
-  margin-top:30px;
+button{
+  margin-top:26px;
   width:100%;
   padding:18px;
   border:none;
@@ -169,7 +171,7 @@ button, input{
   cursor:pointer;
 }
 
-.pay-now:hover{
+button:hover{
   transform:translateY(-2px);
   box-shadow:0 12px 30px rgba(34,197,94,0.35);
 }
@@ -179,28 +181,56 @@ button, input{
   display:none;
   text-align:center;
   margin-top:30px;
-  padding:30px;
+  padding:28px;
   border-radius:22px;
   background:rgba(34,197,94,0.15);
 }
 
-@media (max-width:768px){
-  nav ul{
-    flex-direction:column;
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+
+  body{
+    padding:150px 12px 30px;
   }
 
-  .hero{
+  .topbar{
     flex-direction:column;
-    text-align:center;
+    gap:12px;
+    padding:14px;
   }
 
-  img{
-  max-width:100%;
-  height:auto;
-}
+  .menu{
+    justify-content:center;
+    gap:10px;
+  }
 
-}
+  .menu li{
+    font-size:14px;
+    padding:8px 12px;
+  }
 
+  h1{
+    font-size:1.8rem;
+  }
+
+  .checkout{
+    padding:22px;
+    border-radius:20px;
+  }
+
+  .item{
+    font-size:14px;
+  }
+
+  .qr img{
+    width:130px;
+  }
+
+  button{
+    padding:16px;
+    font-size:15px;
+  }
+}
 </style>
 </head>
 
@@ -213,8 +243,7 @@ button, input{
     <li onclick="location.href='food.html'">Food</li>
     <li onclick="location.href='routine.html'">Routine</li>
     <li onclick="location.href='cart.html'">Cart</li>
-    <li onclick="location.href='profile.html'">profile</li>
-
+    <li onclick="location.href='profile.html'">Profile</li>
   </ul>
 </nav>
 
@@ -259,22 +288,22 @@ button, input{
 
   </div>
 
-  <button class="pay-now" onclick="confirmOrder()">Confirm Order</button>
+  <button onclick="confirmOrder()">Confirm Order</button>
 
   <div id="thankYou">
     <h2 style="color:#22c55e;margin-bottom:10px;">Thank You!</h2>
-    <p style="color:#94a3b8;">Your order has been placed successfully.<br>Redirecting to dashboard...</p>
+    <p style="color:#94a3b8;">Order placed successfully.<br>Redirecting…</p>
   </div>
 
 </div>
 
 <script>
-var cart=JSON.parse(localStorage.getItem("cart"))||[];
-var total=0;
-var box=document.getElementById("checkoutItems");
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let total = 0;
+let box = document.getElementById("checkoutItems");
 
-if(cart.length===0){
-  box.innerHTML="<p style='text-align:center;color:#94a3b8'>Cart is empty</p>";
+if(cart.length === 0){
+  box.innerHTML = "<p style='text-align:center;color:#94a3b8'>Cart is empty</p>";
 }
 
 cart.forEach(i=>{
@@ -296,7 +325,7 @@ function generateQR(){
   let upi=randomUPI();
   upiId.value=upi;
   qrImg.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="
-    +encodeURIComponent("upi://pay?pa="+upi+"&pn=NutriTrack&am="+total);
+  +encodeURIComponent("upi://pay?pa="+upi+"&pn=NutriTrack&am="+total);
 }
 
 function showPayment(){
@@ -309,8 +338,8 @@ showPayment();
 
 function confirmOrder(){
   document.querySelector(".payments").style.display="none";
-  document.querySelector(".pay-now").style.display="none";
-  document.getElementById("thankYou").style.display="block";
+  document.querySelector("button").style.display="none";
+  thankYou.style.display="block";
   localStorage.removeItem("cart");
   setTimeout(()=>location.href="index.html",3000);
 }

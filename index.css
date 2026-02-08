@@ -230,3 +230,18 @@ input, select {
   background: var(--primary);
   border-radius: 10px;
 }
+@media (max-width:768px){
+  nav ul{
+    flex-direction:column;
+  }
+
+  .hero{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  img{
+    max-width:100%;
+    height:auto;
+  }
+}

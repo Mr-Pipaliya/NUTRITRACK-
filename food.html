@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fermented Food Recipes | NutriTrack+</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#10b981;
+  --primary-dark:#0d8f6a;
+  --dark:#020617;
+  --card:rgba(30,41,59,.75);
+  --glass:rgba(255,255,255,.08);
+  --text:#f8fafc;
+  --dim:#94a3b8;
+  --shadow:rgba(0,0,0,.45);
+  --hover:rgba(16,185,129,.25);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}
+body{
+  background:#020617;
+  color:var(--text);
+  padding:120px 30px 30px;
+}
+.nav{
+  position:fixed;top:20px;left:30px;right:30px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.logo{font-size:24px;font-weight:800;color:var(--primary)}
+.nav-links{display:flex;gap:14px}
+.nav-links a{
+  padding:12px 18px;border-radius:16px;
+  background:rgba(255,255,255,.05);
+  text-decoration:none;color:var(--dim);font-weight:600
+}
+.nav-links .active{
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff
+}
+h1{margin-bottom:20px;font-size:32px}
+.card{
+  max-width:1200px;margin:auto;
+  background:var(--card);padding:28px;
+  border-radius:28px;box-shadow:0 20px 40px var(--shadow)
+}
+input{
+  width:100%;padding:14px 18px;border-radius:16px;
+  border:none;background:var(--glass);color:var(--text);
+  margin-bottom:25px
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px
+}
+.item{
+  background:var(--glass);
+  border-radius:22px;
+  padding:22px;
+  cursor:pointer;
+  transition:.3s
+}
+.item:hover{
+  transform:translateY(-6px);
+  box-shadow:0 25px 40px var(--hover)
+}
+.item small{color:var(--dim)}
+.modal{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;align-items:center;justify-content:center;
+}
+.modal-box{
+  background:var(--card);
+  max-width:600px;width:90%;
+  padding:30px;border-radius:26px
+}
+.modal-box button{
+  margin-top:20px;width:100%;padding:14px;
+  border:none;border-radius:16px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;font-weight:700
+}
+.close{float:right;cursor:pointer;color:var(--dim)}
+</style>
+</head>
+
+<body>
+
+<div class="nav">
+  <div class="logo">NutriTrack+</div>
+  <div class="nav-links">
+    <a href="index.html">Dashboard</a>
+    <a class="active">Food</a>
+    <a href="routine.html">Routine</a>
+    <a href="cart.html">Cart</a>
+    <a href="profile.html">Profile</a>
+  </div>
+</div>
+
+<h1>Fermented Food Recipes</h1>
+
+<div class="card">
+  <input id="search" placeholder="Search fermented food..." oninput="render()">
+  <div id="list"></div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <span class="close" onclick="modal.style.display='none'">✕</span>
+    <h2 id="mName"></h2>
+    <p><b>Main Ingredients:</b> <span id="mIng"></span></p>
+    <p><b>Basic Ratio:</b> <span id="mRatio"></span></p>
+    <p><b>Fermentation Time:</b> <span id="mTime"></span></p>
+    <p><b>Microorganisms:</b> <span id="mMicro"></span></p>
+    <button onclick="orderFood()">Order This</button>
+  </div>
+</div>
+
+<script>
+const foods={
+  indian:[
+    {name:"Pickle",ing:"Vegetables, water, salt",ratio:"1kg : 2–4L : 2–3%",time:"5–10 days",micro:"Lactobacillus",price:80},
+    {name:"Curd",ing:"Milk, starter",ratio:"1L : 1 tbsp",time:"6–8 hours",micro:"L. bulgaricus",price:40},
+    {name:"Idli",ing:"Rice, urad dal",ratio:"2 : 1",time:"8–12 hours",micro:"Leuconostoc",price:60},
+    {name:"Dosa",ing:"Rice, urad dal",ratio:"3 : 1",time:"8–14 hours",micro:"Pediococcus",price:70},
+    {name:"Appam",ing:"Rice, coconut",ratio:"2 : 1",time:"8–12 hours",micro:"Saccharomyces",price:65},
+    {name:"Dhokla",ing:"Besan, curd",ratio:"1 : 0.5",time:"6–10 hours",micro:"L. fermentum",price:55},
+    {name:"Panta Bhaat",ing:"Rice, water",ratio:"1 : 2",time:"8–12 hours",micro:"L. plantarum",price:45},
+    {name:"Bhatura",ing:"Maida, curd",ratio:"2 : 1",time:"4–6 hours",micro:"Saccharomyces",price:50},
+    {name:"Kulcha",ing:"Maida, curd",ratio:"2 : 0.5",time:"4–8 hours",micro:"Saccharomyces",price:55},
+    {name:"Kanji Vada",ing:"Urad dal, mustard",ratio:"1 : 0.1",time:"24–48 hours",micro:"Lactobacillus",price:90},
+    {name:"Mesu / Khorisa",ing:"Bamboo shoots",ratio:"Submerged",time:"7–15 days",micro:"L. plantarum",price:120},
+    {name:"Kaladi Cheese",ing:"Milk",ratio:"10 : 1",time:"12–24 hours",micro:"Lactococcus",price:150},
+    {name:"Gundruk",ing:"Leafy greens, salt",ratio:"10 : 0.2",time:"7–14 days",micro:"L. brevis",price:100}
+  ],
+
+  international:[
+    {name:"Kimchi",ing:"Napa cabbage, salt",ratio:"10 : 0.2",time:"3–7 days",micro:"L. plantarum",price:180},
+    {name:"Sauerkraut",ing:"Cabbage, salt",ratio:"10 : 0.2",time:"7–21 days",micro:"Lactobacillus",price:160},
+    {name:"Miso",ing:"Soybeans, koji, salt",ratio:"2 : 1 : 0.2",time:"6 months–2 years",micro:"Aspergillus oryzae",price:220},
+    {name:"Fermented Tofu (Furu)",ing:"Tofu, salt, rice wine",ratio:"5 : 0.5 : 1",time:"2–6 months",micro:"Actinomucor",price:200},
+    {name:"Tepache",ing:"Pineapple peel, sugar",ratio:"1 : 0.2 : 3",time:"2–5 days",micro:"Saccharomyces",price:140},
+    {name:"Boza",ing:"Cereal grains, sugar",ratio:"1 : 0.2 : 5",time:"2–3 days",micro:"Lactobacillus",price:150},
+    {name:"Milk Kefir",ing:"Milk, kefir grains",ratio:"10 : 1",time:"18–24 hours",micro:"L. kefiri",price:170},
+    {name:"Tibicos (Water Kefir)",ing:"Water, sugar, grains",ratio:"10 : 1 : 1",time:"24–48 hours",micro:"L. hilgardii",price:160}
+  ]
+};
+
+let selectedFood=null;
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+
+function render(){
+  const q=search.value.toLowerCase();
+  list.innerHTML=`
+    <h2>Indian Fermented Foods</h2>
+    <div class="grid">
+      ${foods.indian.filter(f=>f.name.toLowerCase().includes(q)).map(card).join("")}
+    </div>
+
+    <h2 style="margin-top:40px">International Fermented Foods</h2>
+    <div class="grid">
+      ${foods.international.filter(f=>f.name.toLowerCase().includes(q)).map(card).join("")}
+    </div>
+  `;
+}
+
+function card(f){
+  return `<div class="item" onclick='openModal(${JSON.stringify(f)})'>
+    <h3>${f.name}</h3>
+    <small>${f.time} • ₹${f.price}</small>
+  </div>`;
+}
+
+function openModal(f){
+  selectedFood=f;
+  modal.style.display="flex";
+  mName.innerText=f.name+" (₹"+f.price+")";
+  mIng.innerText=f.ing;
+  mRatio.innerText=f.ratio;
+  mTime.innerText=f.time;
+  mMicro.innerText=f.micro;
+}
+
+function orderFood(){
+  cart.push({name:selectedFood.name,price:selectedFood.price});
+  localStorage.setItem("cart",JSON.stringify(cart));
+  modal.style.display="none";
+  alert("Added to cart");
+}
+
+render();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,439 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriTrack Pro+</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #10b981;
+  --primary-dark: #0d8f6a;
+  --dark: #0f172a;
+  --card: rgba(30,41,59,0.85);
+  --text: #f8fafc;
+  --dim: #94a3b8;
+  --shadow: rgba(0,0,0,0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0a0f20, #111827);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 40px;
+  text-align: center;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 6px rgba(16,185,129,0.7), 0 4px 12px rgba(16,185,129,0.35);
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  text-shadow: 0 4px 12px rgba(16,185,129,0.9), 0 8px 20px rgba(16,185,129,0.5);
+  transform: scale(1.05);
+}
+
+.content {
+  margin-left: 0;
+  margin-top: 90px;
+  padding: 45px;
+  width: 100%;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--text);
+  text-shadow: 0 1px 4px var(--shadow);
+}
+
+/* CARDS */
+.card {
+  background: var(--card);
+  padding: 30px 25px;
+  border-radius: 22px;
+  margin-bottom: 25px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+}
+
+/* BUTTONS */
+.btn {
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  border: none;
+  padding: 14px 20px;
+  border-radius: 16px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(16,185,129,0.5);
+}
+
+.food-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(4px);
+}
+
+.food-btn:hover {
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* INPUTS */
+input, select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  margin-bottom: 12px;
+  outline: none;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 15px;
+  backdrop-filter: blur(4px);
+}
+
+/* SMALL TEXT */
+.small {
+  color: var(--dim);
+  font-size: 13px;
+  margin-top: 12px;
+  display: block;
+  text-align: center;
+}
+
+/* QUICK GRID */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.quick-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.quick-grid::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+/* PROGRESS RING */
+.progress-ring {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(var(--primary) 0deg, rgba(30,41,59,0.6) 0deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  box-shadow: 0 0 25px rgba(16,185,129,0.4);
+  transition: 0.5s all ease;
+}
+
+.progress-ring span {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+/* WATER BUTTONS */
+.water {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.water button {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: #020617;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.25s ease;
+}
+
+.water button.active {
+  background: var(--primary);
+  box-shadow: 0 0 15px rgba(16,185,129,.6);
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(2,6,23,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+.topbar .logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.topbar .menu {
+  display: flex;
+  gap: 20px;
+}
+
+.topbar .menu li {
+  list-style: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--dim);
+  transition: 0.3s;
+}
+
+.topbar .menu li:hover {
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  color: #fff;
+}
+
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="logo">NUTRITRACK+</div>
+  <ul class="menu">
+    <li onclick="location.href='index.html'">Dashboard</li>
+    <li onclick="location.href='food.html'">Food</li>
+    <li onclick="location.href='routine.html'">Routine</li>
+    <li onclick="location.href='cart.html'">Cart</li>
+    <li onclick="location.href='profile.html'">Profile</li>
+
+  </ul>
+</nav>
+
+<main class="content">
+<h1>Dashboard</h1>
+
+<div class="card center">
+<h3>Calories</h3>
+<div class="progress-ring"><span id="percent">0%</span></div>
+<h2><span id="cal">0</span> / <span id="goal">2000</span></h2>
+<p class="small">🔥 Streak: <span id="streak">0</span> days</p>
+</div>
+
+<div class="card">
+  <h3>Today Summary</h3>
+  <p>🍽️ Foods: <b id="foodCount">0</b></p>
+  <p>💧 Water: <b id="waterCount">0</b>/8</p>
+  <p>📊 Status: <b id="statusText">Good</b></p>
+</div>
+
+<div class="card">
+<h3>Quick Add</h3>
+<div class="quick-grid">
+<button class="food-btn" onclick="addFood('Eggs',150)">🥚 Eggs</button>
+<button class="food-btn" onclick="addFood('Paneer',260)">🧀 Paneer</button>
+<button class="food-btn" onclick="addFood('Curd',90)">🥛 Curd</button>
+<button class="food-btn" onclick="addFood('Rice',210)">🍚 Rice</button>
+<button class="food-btn" onclick="addFood('Roti',110)">🫓 Roti</button>
+<button class="food-btn" onclick="addFood('Oats',160)">🥣 Oats</button>
+<button class="food-btn" onclick="addFood('Banana',100)">🍌 Banana</button>
+<button class="food-btn" onclick="addFood('Apple',95)">🍎 Apple</button>
+<button class="food-btn" onclick="addFood('Milk',120)">🥛 Milk</button>
+<button class="food-btn" onclick="addFood('Almonds',170)">🌰 Almonds</button>
+<button class="food-btn" onclick="addFood('Peanut Butter',190)">🌰 Peanut Butter</button>
+<button class="food-btn" onclick="addFood('Boiled Potato',130)">🌰 Boiled Potato</button>
+</div>
+<button class="btn" style="margin-top:15px" onclick="undo()">Undo</button>
+</div>
+
+<div class="card">
+<h3>Water Intake</h3>
+<div class="water" id="water"></div>
+</div>
+
+<div class="card">
+<h3>Today's Log</h3>
+<div id="logs"></div>
+<!-- Restart button added here -->
+<button class="btn" style="margin-top:15px" onclick="resetLog()">Restart</button>
+</div>
+
+<div class="card">
+  <h3>Last 7 Days History</h3>
+  <div id="weekHistory"></div>
+</div>
+
+</main>
+
+<script>
+if (localStorage.getItem("loggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+
+const todayKey = new Date().toISOString().split("T")[0];
+
+let store = JSON.parse(localStorage.getItem("nutri+")) || {};
+
+if (!store[todayKey]) {
+  store[todayKey] = {
+    cal: 0,
+    goal: 2000,
+    logs: [],
+    water: 0,
+    undo: null
+  };
+}
+
+let data = store[todayKey];
+
+function save() {
+  store[todayKey] = data;
+  localStorage.setItem("nutri+", JSON.stringify(store));
+}
+
+function addFood(n, c) {
+  data.undo = JSON.stringify(data);
+  data.cal += c;
+  data.logs.unshift({ n, c });
+  save();
+  update();
+}
+
+function undo() {
+  if (!data.undo) return;
+  data = JSON.parse(data.undo);
+  save();
+  update();
+}
+
+function remove(i) {
+  data.logs.splice(i, 1);
+  data.cal = data.logs.reduce((t, l) => t + l.c, 0);
+  save();
+  update();
+}
+
+function drink(i) {
+  data.water = i;
+  save();
+  update();
+}
+
+function resetLog() {
+  data.cal = 0;
+  data.logs = [];
+  data.water = 0;
+  data.undo = null;
+  save();
+  update();
+}
+
+function update() {
+  cal.innerText = data.cal;
+  goal.innerText = data.goal;
+
+  let pct = Math.min(100, Math.round((data.cal / data.goal) * 100));
+  percent.innerText = pct + "%";
+
+  document.querySelector(".progress-ring").style.background =
+    `conic-gradient(var(--primary) ${pct * 3.6}deg, #1e293b 0deg)`;
+
+  logs.innerHTML = data.logs.map((l, i) =>
+    `<div class="log">${l.n} (${l.c}) <button onclick="remove(${i})">✕</button></div>`
+  ).join("");
+
+  water.innerHTML = "";
+  for (let i = 1; i <= 8; i++) {
+    water.innerHTML +=
+      `<button class="${i <= data.water ? 'active' : ''}" onclick="drink(${i})">💧</button>`;
+  }
+}
+
+update();
+
+function logout() {
+  localStorage.removeItem("loggedIn");
+  window.location.href = "login.html";
+}
+</script>
+<script>
+function renderWeekHistory() {
+  const box = document.getElementById("weekHistory");
+  const days = Object.keys(store).sort().reverse().slice(0, 7);
+
+  if (days.length === 0) {
+    box.innerHTML = "<p class='small'>No history yet</p>";
+    return;
+  }
+
+  box.innerHTML = days.map(day => {
+    const d = store[day];
+    return `
+      <div style="margin-bottom:15px; padding:12px; border-radius:12px; background:rgba(255,255,255,0.05)">
+        <strong>${day}</strong><br>
+        Calories: ${d.cal}<br>
+        ${d.logs.length
+          ? d.logs.map(l => `• ${l.n} (${l.c})`).join("<br>")
+          : "<span class='small'>No food logged</span>"
+        }
+      </div>
+    `;
+  }).join("");
+}
+
+renderWeekHistory();
+</script>
+
+</body>
+</html>

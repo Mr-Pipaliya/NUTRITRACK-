@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Routine | NutriTrack+</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #10b981;
+  --primary-dark: #0d8f6a;
+  --dark: #0f172a;
+  --card: rgba(30,41,59,0.85);
+  --glass: rgba(255,255,255,0.08);
+  --text: #f8fafc;
+  --dim: #94a3b8;
+  --shadow: rgba(0,0,0,0.4);
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* BODY */
+body {
+  background: linear-gradient(135deg, #0a0f20, #111827);
+  color: var(--text);
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+/* TOPBAR (same as dashboard) */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(2,6,23,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+.topbar .logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.topbar .menu {
+  display: flex;
+  gap: 20px;
+}
+
+.topbar .menu li {
+  list-style: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--dim);
+  transition: 0.3s;
+}
+
+.topbar .menu li:hover,
+.topbar .menu .active {
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  color: #fff;
+}
+
+/* CONTENT */
+.content {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+/* CARD */
+.card {
+  background: var(--card);
+  padding: 28px;
+  border-radius: 22px;
+  margin-bottom: 25px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px);
+}
+
+/* ROUTINE ITEM */
+.routine-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  background: var(--glass);
+  border-radius: 16px;
+}
+
+.routine-item.completed label {
+  text-decoration: line-through;
+  color: var(--dim);
+}
+
+.routine-item label {
+  font-size: 15px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary);
+}
+
+/* NOTES */
+textarea {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  outline: none;
+  background: var(--glass);
+  color: #fff;
+  resize: none;
+  min-height: 90px;
+}
+
+/* BUTTON */
+.btn {
+  margin-top: 18px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+}
+
+.btn.secondary {
+  background: #1e293b;
+}
+
+/* PROGRESS */
+.progress {
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="logo">NUTRITRACK+</div>
+  <ul class="menu">
+    <li onclick="location.href='index.html'">Dashboard</li>
+    <li onclick="location.href='food.html'">Food</li>
+    <li class="active">Routine</li>
+    <li onclick="location.href='cart.html'">Cart</li>
+    <li onclick="location.href='profile.html'">Profile</li>
+
+  </ul>
+</nav>
+
+<!-- CONTENT -->
+<main class="content">
+<h1>Daily Routine</h1>
+
+<div class="progress">
+  Progress: <span id="progressText">0%</span>
+</div>
+
+<div class="card">
+
+  <div class="routine-item">
+    <label>Morning Workout</label>
+    <input type="checkbox" id="workout">
+  </div>
+
+  <div class="routine-item">
+    <label>8k Steps</label>
+    <input type="checkbox" id="steps">
+  </div>
+
+  <div class="routine-item">
+    <label>Stretching / Warmup</label>
+    <input type="checkbox" id="stretching">
+  </div>
+
+  <div class="routine-item">
+    <label>Sleep 7+ hrs</label>
+    <input type="checkbox" id="sleep">
+  </div>
+
+  <textarea id="notes" placeholder="Routine notes..."></textarea>
+
+  <button class="btn" onclick="saveRoutine()">Save Routine</button>
+  <button class="btn secondary" onclick="resetRoutine()">Reset Today</button>
+</div>
+
+</main>
+
+<script>
+const ids = ["workout","steps","stretching","sleep"];
+const key = "routine_" + new Date().toISOString().split("T")[0];
+
+function loadRoutine(){
+  const data = JSON.parse(localStorage.getItem(key)) || {};
+  ids.forEach(id=>{
+    const el = document.getElementById(id);
+    el.checked = data[id] || false;
+    el.closest(".routine-item")
+      .classList.toggle("completed", el.checked);
+  });
+  notes.value = data.notes || "";
+  updateProgress();
+}
+
+function saveRoutine(){
+  const data = { notes: notes.value };
+  ids.forEach(id => data[id] = document.getElementById(id).checked);
+  localStorage.setItem(key, JSON.stringify(data));
+  alert("Routine saved ✔");
+}
+
+function resetRoutine(){
+  ids.forEach(id=>{
+    document.getElementById(id).checked = false;
+    document.getElementById(id).closest(".routine-item")
+      .classList.remove("completed");
+  });
+  notes.value = "";
+  saveRoutine();
+}
+
+function updateProgress(){
+  let done = ids.filter(id => document.getElementById(id).checked).length;
+  let pct = Math.round((done / ids.length) * 100);
+  progressText.innerText = pct + "%";
+}
+
+document.querySelectorAll("input").forEach(cb=>{
+  cb.addEventListener("change", e=>{
+    e.target.closest(".routine-item")
+      .classList.toggle("completed", e.target.checked);
+    updateProgress();
+  });
+});
+
+loadRoutine();
+</script>
+
+</body>
+</html>

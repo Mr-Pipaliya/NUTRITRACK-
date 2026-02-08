@@ -1,0 +1,60 @@
+let data = JSON.parse(localStorage.getItem("nutri+")) || {
+cal:0, goal:2000, logs:[], water:0, undo:null
+};
+
+function save(){ localStorage.setItem("nutri+",JSON.stringify(data)); }
+
+function addFood(n,c){
+data.undo = JSON.stringify(data);
+data.cal += c;
+data.logs.unshift({n,c});
+save();
+update();
+}
+
+function undo(){
+if(!data.undo) return;
+data = JSON.parse(data.undo);
+save();
+update();
+}
+
+function remove(i){
+data.logs.splice(i,1);
+save();
+update();
+}
+
+function drink(i){
+data.water = i;
+save();
+update();
+}
+
+function resetLog(){
+  data.logs = [];   // Clear all log entries
+  save();           // Save to localStorage
+  update();         // Refresh UI
+}
+
+
+function update(){
+cal.innerText = data.cal;
+goal.innerText = data.goal;
+
+let pct = Math.min(100, Math.round((data.cal/data.goal)*100));
+percent.innerText = pct+"%";
+document.querySelector(".progress-ring").style.background =
+`conic-gradient(var(--primary) ${pct*3.6}deg, #1e293b 0deg)`;
+
+logs.innerHTML = data.logs.map((l,i)=>
+`<div class="log">${l.n} (${l.c}) <button onclick="remove(${i})">✕</button></div>`
+).join("");
+
+water.innerHTML = "";
+for(let i=1;i<=8;i++){
+water.innerHTML += `<button class="${i<=data.water?'active':''}" onclick="drink(${i})">💧</button>`;
+}
+}
+
+update();

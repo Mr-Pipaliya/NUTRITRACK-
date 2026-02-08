@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile | NutriTrack+</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #10b981;
+  --primary-dark: #0d8f6a;
+  --dark: #020617;
+  --card: rgba(30,41,59,0.75);
+  --glass: rgba(255,255,255,0.08);
+  --text: #f8fafc;
+  --dim: #94a3b8;
+  --shadow: rgba(0,0,0,0.45);
+  --hover-glow: rgba(16,185,129,0.25);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+body{
+  background:radial-gradient(circle at top,var(--dark),var(--dark) 60%);
+  color:var(--text);
+  padding:120px 30px 30px;
+  min-height:100vh;
+}
+
+/* ===== HEADER ===== */
+.header{
+  position:fixed;
+  top:20px;
+  left:30px;
+  right:30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:100;
+}
+
+.header h1{
+  font-size:28px;
+  font-weight:700;
+}
+
+.nav-right{
+  display:flex;
+  gap:12px;
+}
+
+.nav-btn{
+  padding:10px 16px;
+  border-radius:14px;
+  text-decoration:none;
+  font-weight:600;
+  color:var(--dim);
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(6px);
+  transition:.25s;
+}
+
+.nav-btn:hover{
+  background:var(--glass);
+  color:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px var(--hover-glow);
+}
+
+.nav-btn.active{
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  box-shadow:0 6px 18px var(--hover-glow);
+}
+
+.nav-btn.logout{
+  background:rgba(239,68,68,.15);
+  color:#fecaca;
+}
+
+.nav-btn.logout:hover{
+  background:rgba(239,68,68,.35);
+  color:#fff;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card);
+  backdrop-filter:blur(18px);
+  padding:28px;
+  border-radius:26px;
+  max-width:600px;
+  margin:0 auto 25px;
+  box-shadow:0 20px 40px var(--shadow);
+}
+
+.card h3{
+  margin-bottom:14px;
+}
+
+/* ===== FORM ===== */
+label{
+  display:block;
+  margin-bottom:6px;
+  font-size:14px;
+}
+
+input,select{
+  width:100%;
+  padding:14px 16px;
+  border-radius:16px;
+  border:none;
+  margin-bottom:20px;
+  background:var(--glass);
+  color:var(--text);
+  outline:none;
+}
+
+/* ===== BUTTON ===== */
+.btn{
+  width:100%;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  border:none;
+  padding:14px;
+  border-radius:16px;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 6px 20px var(--hover-glow);
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.1);
+}
+
+.small{
+  color:var(--dim);
+  font-size:13px;
+  margin-top:10px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <h1>Profile</h1>
+  <div class="nav-right">
+    <a href="index.html" class="nav-btn">Dashboard</a>
+    <a href="food.html" class="nav-btn">Food</a>
+    <a href="routine.html" class="nav-btn ">Routine</a>
+    <a href="cart.html" class="nav-btn">Cart</a>
+    <a href="#" class="nav-btn logout" onclick="logout()">Logout</a>
+  </div>
+</div>
+
+<!-- ===== USER INFO ===== -->
+<div class="card">
+  <h3>User Info</h3>
+
+  <label>Name</label>
+  <input id="username">
+
+  <label>Age</label>
+  <input type="number" id="age">
+
+  <label>Weight (kg)</label>
+  <input type="number" id="weight">
+
+  <label>Height (cm)</label>
+  <input type="number" id="height">
+</div>
+
+<!-- ===== GOALS ===== -->
+<div class="card">
+  <h3>Goals</h3>
+
+  <label>Goal Type</label>
+  <select id="goalType">
+    <option value="weightLoss">Weight Loss</option>
+    <option value="maintain">Maintain Weight</option>
+    <option value="muscleGain">Muscle Gain</option>
+  </select>
+
+  <label>Daily Calorie Goal</label>
+  <input type="number" id="dailyCal">
+</div>
+
+<!-- ===== SAVE ===== -->
+<div class="card">
+  <button class="btn" onclick="saveProfileData()">Save Profile</button>
+  <p class="small">Saved locally in your browser</p>
+</div>
+
+<script>
+if(localStorage.getItem("loggedIn")!=="true"){
+  window.location.href="login.html";
+}
+
+function logout(){
+  localStorage.removeItem("loggedIn");
+  window.location.href="login.html";
+}
+
+const profile=JSON.parse(localStorage.getItem("profileData"))||{};
+
+function loadProfileData(){
+  username.value=profile.username||"";
+  age.value=profile.age||"";
+  weight.value=profile.weight||"";
+  height.value=profile.height||"";
+  goalType.value=profile.goalType||"maintain";
+  dailyCal.value=profile.dailyCal||"";
+}
+
+function saveProfileData(){
+  localStorage.setItem("profileData",JSON.stringify({
+    username:username.value,
+    age:age.value,
+    weight:weight.value,
+    height:height.value,
+    goalType:goalType.value,
+    dailyCal:dailyCal.value
+  }));
+  alert("Profile saved ✔");
+}
+
+loadProfileData();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | NutriTrack+</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#020617;
+  --glass:rgba(255,255,255,0.08);
+  --card:rgba(30,41,59,0.75);
+  --primary:#22c55e;
+  --primary-dark:#16a34a;
+  --text:#f8fafc;
+  --dim:#94a3b8;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+body{
+  background:radial-gradient(circle at top,#020617,#000);
+  color:var(--text);
+  padding:110px 20px 40px;
+}
+
+/* ===== NAV ===== */
+.topbar{
+  position:fixed;
+  top:20px;
+  left:30px;
+  right:30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(12px);
+  padding:16px 24px;
+  border-radius:22px;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:800;
+  color:var(--primary);
+}
+
+.menu{
+  display:flex;
+  gap:14px;
+  list-style:none;
+}
+
+.menu li{
+  padding:10px 16px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.06);
+  color:var(--dim);
+  cursor:pointer;
+  transition:0.25s;
+}
+
+.menu li:hover{
+  background:var(--glass);
+  color:#fff;
+  transform:translateY(-2px);
+}
+
+/* ===== CHECKOUT ===== */
+h1{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.checkout{
+  max-width:780px;
+  margin:auto;
+  background:var(--card);
+  padding:34px;
+  border-radius:28px;
+  box-shadow:0 30px 60px rgba(0,0,0,0.6);
+}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.total{
+  text-align:right;
+  margin-top:18px;
+  font-size:18px;
+  font-weight:800;
+}
+
+/* ===== PAYMENTS ===== */
+.payments{
+  margin-top:34px;
+}
+
+.payment-option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 16px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.05);
+  margin-bottom:12px;
+  cursor:pointer;
+}
+
+.payment-option input{
+  accent-color:var(--primary);
+}
+
+.payment-details{
+  margin-top:12px;
+  padding:18px;
+  background:var(--glass);
+  border-radius:16px;
+  display:none;
+}
+
+.payment-details input{
+  width:100%;
+  margin-bottom:12px;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  outline:none;
+}
+
+.qr{
+  text-align:center;
+}
+
+.qr img{
+  width:180px;
+  margin-top:10px;
+}
+
+/* ===== BUTTON ===== */
+.pay-now{
+  margin-top:30px;
+  width:100%;
+  padding:18px;
+  border:none;
+  border-radius:22px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.pay-now:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(34,197,94,0.35);
+}
+
+/* ===== THANK YOU ===== */
+#thankYou{
+  display:none;
+  text-align:center;
+  margin-top:30px;
+  padding:30px;
+  border-radius:22px;
+  background:rgba(34,197,94,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<nav class="topbar">
+  <div class="logo">NUTRITRACK+</div>
+  <ul class="menu">
+    <li onclick="location.href='index.html'">Dashboard</li>
+    <li onclick="location.href='food.html'">Food</li>
+    <li onclick="location.href='routine.html'">Routine</li>
+    <li onclick="location.href='cart.html'">Cart</li>
+    <li onclick="location.href='profile.html'">profile</li>
+
+  </ul>
+</nav>
+
+<h1>Checkout</h1>
+
+<div class="checkout">
+
+  <div id="checkoutItems"></div>
+
+  <div class="total">
+    Total: ₹<span id="total">0</span>
+  </div>
+
+  <div class="payments">
+
+    <label class="payment-option">
+      <input type="radio" name="payment" value="upi" checked onclick="showPayment()"> UPI (ID / QR)
+    </label>
+
+    <label class="payment-option">
+      <input type="radio" name="payment" value="card" onclick="showPayment()"> Card Payment
+    </label>
+
+    <label class="payment-option">
+      <input type="radio" name="payment" value="cod" onclick="showPayment()"> Cash on Delivery
+    </label>
+
+    <div id="upiBox" class="payment-details">
+      <input type="text" placeholder="Your Name">
+      <input type="text" id="upiId" readonly>
+      <div class="qr">
+        <img id="qrImg">
+      </div>
+    </div>
+
+    <div id="cardBox" class="payment-details">
+      <input type="text" placeholder="Card Holder Name">
+      <input type="text" placeholder="Card Number">
+      <input type="text" placeholder="MM / YY">
+      <input type="text" placeholder="CVV">
+    </div>
+
+  </div>
+
+  <button class="pay-now" onclick="confirmOrder()">Confirm Order</button>
+
+  <div id="thankYou">
+    <h2 style="color:#22c55e;margin-bottom:10px;">Thank You!</h2>
+    <p style="color:#94a3b8;">Your order has been placed successfully.<br>Redirecting to dashboard...</p>
+  </div>
+
+</div>
+
+<script>
+var cart=JSON.parse(localStorage.getItem("cart"))||[];
+var total=0;
+var box=document.getElementById("checkoutItems");
+
+if(cart.length===0){
+  box.innerHTML="<p style='text-align:center;color:#94a3b8'>Cart is empty</p>";
+}
+
+cart.forEach(i=>{
+  let d=document.createElement("div");
+  d.className="item";
+  d.innerHTML=`<span>${i.name}</span><span>₹${i.price}</span>`;
+  box.appendChild(d);
+  total+=i.price;
+});
+
+document.getElementById("total").innerText=total;
+
+function randomUPI(){
+  let a=["gpay","paytm","phonepe","okaxis"];
+  return "user"+Math.floor(Math.random()*9000+1000)+"@"+a[Math.floor(Math.random()*a.length)];
+}
+
+function generateQR(){
+  let upi=randomUPI();
+  upiId.value=upi;
+  qrImg.src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="
+    +encodeURIComponent("upi://pay?pa="+upi+"&pn=NutriTrack&am="+total);
+}
+
+function showPayment(){
+  let v=document.querySelector("input[name='payment']:checked").value;
+  upiBox.style.display=v==="upi"?"block":"none";
+  cardBox.style.display=v==="card"?"block":"none";
+  if(v==="upi") generateQR();
+}
+showPayment();
+
+function confirmOrder(){
+  document.querySelector(".payments").style.display="none";
+  document.querySelector(".pay-now").style.display="none";
+  document.getElementById("thankYou").style.display="block";
+  localStorage.removeItem("cart");
+  setTimeout(()=>location.href="index.html",3000);
+}
+</script>
+
+</body>
+</html>

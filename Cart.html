@@ -239,8 +239,8 @@ button:hover{
 <nav class="topbar">
   <div class="logo">NUTRITRACK+</div>
   <ul class="menu">
-    <li onclick="location.href='index.html'">Dashboard</li>
-    <li onclick="location.href='food.html'">Food</li>
+    <li onclick="location.href='/index.html'">Dashboard</li>
+        <li onclick="location.href='food.html'">Food</li>
     <li onclick="location.href='routine.html'">Routine</li>
     <li onclick="location.href='cart.html'">Cart</li>
     <li onclick="location.href='profile.html'">Profile</li>
@@ -296,6 +296,13 @@ button:hover{
   </div>
 
 </div>
+
+let upiBox = document.getElementById("upiBox");
+let cardBox = document.getElementById("cardBox");
+let upiId = document.getElementById("upiId");
+let qrImg = document.getElementById("qrImg");
+let thankYou = document.getElementById("thankYou");
+
 
 <script>
 let cart = JSON.parse(localStorage.getItem("cart")) || [];

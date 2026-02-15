@@ -116,6 +116,14 @@ input{
   transition:.3s
 }
 
+.item img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:16px;
+  margin-bottom:12px;
+}
+
 .item:hover{
   transform:translateY(-6px);
   box-shadow:0 25px 40px var(--hover)
@@ -202,50 +210,70 @@ input{
 
 const foods = {
   indian: [
-    {name:"Pickle",ing:"Vegetables, water, salt",ratio:"1kg : 2–4L : 2–3%",time:"5–10 days",micro:"Lactobacillus",price:80},
-    {name:"Curd",ing:"Milk, starter",ratio:"1L : 1 tbsp",time:"6–8 hours",micro:"L. bulgaricus",price:40},
-    {name:"Idli",ing:"Rice, urad dal",ratio:"2 : 1",time:"8–12 hours",micro:"Leuconostoc",price:60},
-    {name:"Dosa",ing:"Rice, urad dal",ratio:"3 : 1",time:"8–14 hours",micro:"Pediococcus",price:70},
-    {name:"Appam",ing:"Rice, coconut",ratio:"2 : 1",time:"8–12 hours",micro:"Saccharomyces",price:65},
-    {name:"Dhokla",ing:"Besan, curd",ratio:"1 : 0.5",time:"6–10 hours",micro:"L. fermentum",price:55},
-    {name:"Panta Bhaat",ing:"Rice, water",ratio:"1 : 2",time:"8–12 hours",micro:"L. plantarum",price:45},
-    {name:"Bhatura",ing:"Maida, curd",ratio:"2 : 1",time:"4–6 hours",micro:"Saccharomyces",price:50},
-    {name:"Kulcha",ing:"Maida, curd",ratio:"2 : 0.5",time:"4–8 hours",micro:"Saccharomyces",price:55},
-    {name:"Kanji Vada",ing:"Urad dal, mustard",ratio:"1 : 0.1",time:"24–48 hours",micro:"Lactobacillus",price:90},
-    {name:"Mesu / Khorisa",ing:"Bamboo shoots",ratio:"Submerged",time:"7–15 days",micro:"L. plantarum",price:120},
-    {name:"Kaladi Cheese",ing:"Milk",ratio:"10 : 1",time:"12–24 hours",micro:"Lactococcus",price:150},
-    {name:"Gundruk",ing:"Leafy greens, salt",ratio:"10 : 0.2",time:"7–14 days",micro:"L. brevis",price:100}
+    {name:"Pickle",ing:"Vegetables, water, salt",ratio:"1kg : 2–4L : 2–3%",time:"5–10 days",micro:"Lactobacillus",price:80,img:"images/pickle.webp"},
+
+    {name:"Curd",ing:"Milk, starter",ratio:"1L : 1 tbsp",time:"6–8 hours",micro:"L. bulgaricus",price:40,img:"images/curd.jpg"},
+
+    {name:"Idli",ing:"Rice, urad dal",ratio:"2 : 1",time:"8–12 hours",micro:"Leuconostoc",price:60,img:"images/idli.webp"},
+
+    {name:"Dosa",ing:"Rice, urad dal",ratio:"3 : 1",time:"8–14 hours",micro:"Pediococcus",price:70,img:"images/dosa.jpg"},
+
+    {name:"Appam",ing:"Rice, coconut",ratio:"2 : 1",time:"8–12 hours",micro:"Saccharomyces",price:65,img:"images/appam.jfif"},
+
+    {name:"Dhokla",ing:"Besan, curd",ratio:"1 : 0.5",time:"6–10 hours",micro:"L. fermentum",price:55,img:"images/dhokla.jpg"},
+
+    {name:"Panta Bhaat",ing:"Rice, water",ratio:"1 : 2",time:"8–12 hours",micro:"L. plantarum",price:45,img:"images/panta bhaat.webp"},
+
+    {name:"Bhatura",ing:"Maida, curd",ratio:"2 : 1",time:"4–6 hours",micro:"Saccharomyces",price:50,img:"images/bhatura.jpg"},
+
+    {name:"Kulcha",ing:"Maida, curd",ratio:"2 : 0.5",time:"4–8 hours",micro:"Saccharomyces",price:55,img:"images/kulcha.jpg"},
+
+    {name:"Kanji Vada",ing:"Urad dal, mustard",ratio:"1 : 0.1",time:"24–48 hours",micro:"Lactobacillus",price:90,img:"images/kanji vada.jpg"},
+
+    {name:"Mesu - Khorisa",ing:"Bamboo shoots",ratio:"Submerged",time:"7–15 days",micro:"L. plantarum",price:120,img:"images/Mesu - Khorisa.webp"},
+
+    {name:"Kaladi Cheese",ing:"Milk",ratio:"10 : 1",time:"12–24 hours",micro:"Lactococcus",price:150,img:"images/Kaladi Cheese.jfif"},
+
+    {name:"Gundruk",ing:"Leafy greens, salt",ratio:"10 : 0.2",time:"7–14 days",micro:"L. brevis",price:100,img:"images/gundruk.jpg"}
   ],
 
   international: [
-    {name:"Kimchi",ing:"Napa cabbage, salt",ratio:"10 : 0.2",time:"3–7 days",micro:"L. plantarum",price:180},
-    {name:"Sauerkraut",ing:"Cabbage, salt",ratio:"10 : 0.2",time:"7–21 days",micro:"Lactobacillus",price:160},
-    {name:"Miso",ing:"Soybeans, koji, salt",ratio:"2 : 1 : 0.2",time:"6 months–2 years",micro:"Aspergillus oryzae",price:220},
-    {name:"Fermented Tofu (Furu)",ing:"Tofu, salt, rice wine",ratio:"5 : 0.5 : 1",time:"2–6 months",micro:"Actinomucor",price:200},
-    {name:"Tepache",ing:"Pineapple peel, sugar",ratio:"1 : 0.2 : 3",time:"2–5 days",micro:"Saccharomyces",price:140},
-    {name:"Boza",ing:"Cereal grains, sugar",ratio:"1 : 0.2 : 5",time:"2–3 days",micro:"Lactobacillus",price:150},
-    {name:"Milk Kefir",ing:"Milk, kefir grains",ratio:"10 : 1",time:"18–24 hours",micro:"L. kefiri",price:170},
-    {name:"Tibicos (Water Kefir)",ing:"Water, sugar, grains",ratio:"10 : 1 : 1",time:"24–48 hours",micro:"L. hilgardii",price:160}
+    {name:"Kimchi",ing:"Napa cabbage, salt",ratio:"10 : 0.2",time:"3–7 days",micro:"L. plantarum",price:180,img:"images/kimchi.jpg"},
+
+    {name:"Sauerkraut",ing:"Cabbage, salt",ratio:"10 : 0.2",time:"7–21 days",micro:"Lactobacillus",price:160,img:"images/sauerkraut.jpg"},
+
+    {name:"Miso",ing:"Soybeans, koji, salt",ratio:"2 : 1 : 0.2",time:"6 months–2 years",micro:"Aspergillus oryzae",price:220,img:"images/miso.jpg"},
+
+    {name:"Fermented Tofu (Furu)",ing:"Tofu, salt, rice wine",ratio:"5 : 0.5 : 1",time:"2–6 months",micro:"Actinomucor",price:200,img:"images/furu.jpg"},
+
+    {name:"Tepache",ing:"Pineapple peel, sugar",ratio:"1 : 0.2 : 3",time:"2–5 days",micro:"Saccharomyces",price:140,img:"images/tepache.jpg"},
+
+    {name:"Boza",ing:"Cereal grains, sugar",ratio:"1 : 0.2 : 5",time:"2–3 days",micro:"Lactobacillus",price:150,img:"images/boza.jpg"},
+
+    {name:"Milk Kefir",ing:"Milk, kefir grains",ratio:"10 : 1",time:"18–24 hours",micro:"L. kefiri",price:170,img:"images/milkkefir.jpg"},
+
+    {name:"Tibicos (Water Kefir)",ing:"Water, sugar, grains",ratio:"10 : 1 : 1",time:"24–48 hours",micro:"L. hilgardii",price:160,img:"images/waterkefir.jpg"}
   ],
 
   fermentedSweetsBeverages: [
-    {name:"Jalebi",ing:"Maida, curd, water",ratio:"1 : 1.5 : as required",time:"8–12 hours",micro:"L. fermentum, Leuconostoc mesenteroides",price:90},
+    {name:"Jalebi",ing:"Maida, curd, water",ratio:"1 : 1.5 : as required",time:"8–12 hours",micro:"L. fermentum, Leuconostoc mesenteroides",price:90,img:"images/jalebi.jpg"},
 
-    {name:"Mishti Doi",ing:"Milk, sugar/jaggery, starter curd",ratio:"1L : 3–4 tbsp : 1 tbsp",time:"8–10 hours",micro:"L. bulgaricus, Streptococcus thermophilus",price:120},
+    {name:"Mishti Doi",ing:"Milk, sugar/jaggery, starter curd",ratio:"1L : 3–4 tbsp : 1 tbsp",time:"8–10 hours",micro:"L. bulgaricus, Streptococcus thermophilus",price:120,img:"images/mishtidoi.jpg"},
 
-    {name:"Ambali",ing:"Ragi flour, water",ratio:"1 tbsp : 1 cup",time:"8–12 hours",micro:"L. plantarum, L. fermentum",price:60},
+    {name:"Ambali",ing:"Ragi flour, water",ratio:"1 tbsp : 1 cup",time:"8–12 hours",micro:"L. plantarum, L. fermentum",price:60,img:"images/ambali.jpg"},
 
-    {name:"Kanji",ing:"Black carrot/beetroot, water, salt, mustard",ratio:"1 cup : 4 cups : 1 tsp : 0.5 tsp",time:"2–3 days",micro:"L. plantarum, Leuconostoc mesenteroides",price:70},
+    {name:"Kanji",ing:"Black carrot/beetroot, water, salt, mustard",ratio:"1 cup : 4 cups : 1 tsp : 0.5 tsp",time:"2–3 days",micro:"L. plantarum, Leuconostoc mesenteroides",price:70,img:"images/kanji.jpg"},
 
-    {name:"Kombucha",ing:"Tea, sugar, SCOBY, water",ratio:"1L : 2 tbsp : 1 tsp : 1 SCOBY",time:"7–10 days",micro:"Acetobacter xylinum, Saccharomyces cerevisiae",price:150},
+    {name:"Kombucha",ing:"Tea, sugar, SCOBY, water",ratio:"1L : 2 tbsp : 1 tsp : 1 SCOBY",time:"7–10 days",micro:"Acetobacter xylinum, Saccharomyces cerevisiae",price:150,img:"images/kombucha.jpg"},
 
-    {name:"Bombucha (Jun)",ing:"Green tea, honey, SCOBY",ratio:"1L : 2 tbsp : 1 tsp : 1 SCOBY",time:"4–7 days",micro:"Komagataeibacter xylinus, Saccharomyces cerevisiae",price:170},
+    {name:"Bombucha (Jun)",ing:"Green tea, honey, SCOBY",ratio:"1L : 2 tbsp : 1 tsp : 1 SCOBY",time:"4–7 days",micro:"Komagataeibacter xylinus, Saccharomyces cerevisiae",price:170,img:"images/jun.jpg"},
 
-    {name:"Ginger Bug",ing:"Ginger, sugar, water",ratio:"1 cup : 1 tbsp : 1 tbsp",time:"3–5 days",micro:"Saccharomyces cerevisiae, L. plantarum",price:80},
-
-    {name:"Alcoholic Beverages",ing:"Fruit/grain substrate, sugar, yeast",ratio:"1L : 100–200g : 0.25–0.5 tsp",time:"5–14 days",micro:"Saccharomyces cerevisiae",price:250}
+    {name:"Ginger Bug",ing:"Ginger, sugar, water",ratio:"1 cup : 1 tbsp : 1 tbsp",time:"3–5 days",micro:"Saccharomyces cerevisiae, L. plantarum",price:80,img:"images/gingerbug.jpg"},
+    
+    {name:"Alcoholic Beverages",ing:"Fruit/grain substrate, sugar, yeast",ratio:"1L : 100–200g : 0.25–0.5 tsp",time:"5–14 days",micro:"Saccharomyces cerevisiae",price:250,img:"images/alcoholic.jpg"}
   ]
 };
+
 
 let selectedFood=null;
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
@@ -274,11 +302,14 @@ function render(){
 }
 
 function card(f){
-  return `<div class="item" onclick='openModal(${JSON.stringify(f)})'>
+  return `
+  <div class="item" onclick='openModal(${JSON.stringify(f)})'>
+    <img src="${f.img}" alt="${f.name}">
     <h3>${f.name}</h3>
     <small>${f.time} • ₹${f.price}</small>
   </div>`;
 }
+
 
 function openModal(f){
   selectedFood=f;
@@ -299,6 +330,18 @@ function orderFood(){
   localStorage.setItem("cart",JSON.stringify(cart));
   closeModal();
   alert("Added to cart");
+}
+
+function addToCart(name, price){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cart.push({
+    name: name,
+    price: price
+  });
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert(name + " added to cart");
 }
 
 render();

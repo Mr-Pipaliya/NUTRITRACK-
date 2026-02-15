@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Fermented Food Recipes | NutriTrack+</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -34,7 +33,6 @@ body{
   padding:110px 30px 30px;
 }
 
-/* ---------- NAV ---------- */
 .nav{
   position:fixed;
   top:20px;
@@ -43,7 +41,6 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:16px;
   flex-wrap:wrap;
   z-index:1000;
 }
@@ -75,10 +72,14 @@ body{
   color:#fff
 }
 
-/* ---------- CONTENT ---------- */
 h1{
   font-size:2.2rem;
   margin-bottom:20px;
+}
+
+h2{
+  margin:40px 0 15px;
+  color:var(--primary);
 }
 
 .card{
@@ -124,7 +125,6 @@ input{
   color:var(--dim)
 }
 
-/* ---------- MODAL ---------- */
 .modal{
   position:fixed;
   inset:0;
@@ -163,50 +163,21 @@ input{
   color:var(--dim);
   font-size:18px;
 }
-
-/* ---------- MOBILE ---------- */
-@media (max-width:768px){
-  body{
-    padding:140px 16px 20px;
-  }
-
-  h1{
-    font-size:1.7rem;
-    text-align:center;
-  }
-
-  .card{
-    padding:20px;
-  }
-
-  .nav{
-    justify-content:center;
-  }
-
-  .logo{
-    width:100%;
-    text-align:center;
-  }
-
-  .nav-links{
-    justify-content:center;
-  }
-}
 </style>
 </head>
 
 <body>
 
-<div class="nav">
-  <div class="logo">NutriTrack+</div>
-  <div class="nav-links">
-    <a href="index.html">Dashboard</a>
-    <a class="active">Food</a>
-    <a href="routine.html">Routine</a>
-    <a href="cart.html">Cart</a>
-    <a href="profile.html">Profile</a>
-  </div>
-</div>
+  <div class="nav">
+    <div class="logo">NutriTrack+</div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="food.html" class="active">Food</a>
+      <a href="routine.html">Routine</a>
+      <a href="cart.html">Cart</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>  
 
 <h1>Fermented Food Recipes</h1>
 
@@ -217,7 +188,7 @@ input{
 
 <div class="modal" id="modal">
   <div class="modal-box">
-    <span class="close" onclick="modal.style.display='none'">✕</span>
+    <span class="close" onclick="closeModal()">✕</span>
     <h2 id="mName"></h2>
     <p><b>Main Ingredients:</b> <span id="mIng"></span></p>
     <p><b>Basic Ratio:</b> <span id="mRatio"></span></p>
@@ -228,6 +199,7 @@ input{
 </div>
 
 <script>
+
 const foods = {
   indian: [
     {name:"Pickle",ing:"Vegetables, water, salt",ratio:"1kg : 2–4L : 2–3%",time:"5–10 days",micro:"Lactobacillus",price:80},
@@ -275,21 +247,28 @@ const foods = {
   ]
 };
 
-
 let selectedFood=null;
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
 function render(){
-  const q=search.value.toLowerCase();
+  const q=document.getElementById("search").value.toLowerCase();
+  const list=document.getElementById("list");
+
   list.innerHTML=`
+
     <h2>Indian Fermented Foods</h2>
     <div class="grid">
       ${foods.indian.filter(f=>f.name.toLowerCase().includes(q)).map(card).join("")}
     </div>
 
-    <h2 style="margin-top:40px">International Fermented Foods</h2>
+    <h2>International Fermented Foods</h2>
     <div class="grid">
       ${foods.international.filter(f=>f.name.toLowerCase().includes(q)).map(card).join("")}
+    </div>
+
+    <h2>Fermented Sweets & Beverages</h2>
+    <div class="grid">
+      ${foods.fermentedSweetsBeverages.filter(f=>f.name.toLowerCase().includes(q)).map(card).join("")}
     </div>
   `;
 }
@@ -303,22 +282,27 @@ function card(f){
 
 function openModal(f){
   selectedFood=f;
-  modal.style.display="flex";
-  mName.innerText=f.name+" (₹"+f.price+")";
-  mIng.innerText=f.ing;
-  mRatio.innerText=f.ratio;
-  mTime.innerText=f.time;
-  mMicro.innerText=f.micro;
+  document.getElementById("modal").style.display="flex";
+  document.getElementById("mName").innerText=f.name+" (₹"+f.price+")";
+  document.getElementById("mIng").innerText=f.ing;
+  document.getElementById("mRatio").innerText=f.ratio;
+  document.getElementById("mTime").innerText=f.time;
+  document.getElementById("mMicro").innerText=f.micro;
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
 }
 
 function orderFood(){
   cart.push({name:selectedFood.name,price:selectedFood.price});
   localStorage.setItem("cart",JSON.stringify(cart));
-  modal.style.display="none";
+  closeModal();
   alert("Added to cart");
 }
 
 render();
+
 </script>
 
 </body>

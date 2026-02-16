@@ -321,7 +321,39 @@ input, select {
   }
 }
 
+/* MOBILE RESPONSIVE FIX FOR INDEX.HTML */
+@media (max-width: 768px) {
+  .topbar {
+    position: relative; /* Mobile ma header ne fixed na rakhvo, jenathi content kapay nai */
+    flex-direction: column;
+    height: auto;
+    padding: 15px;
+    gap: 10px;
+  }
 
+  .topbar .menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .content {
+    margin-top: 0; /* Header relative karyu etle have margin ni jarur nathi */
+    padding: 20px 15px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .quick-grid {
+    grid-template-columns: repeat(2, 1fr); /* Mobile ma 2 buttons ek line ma */
+  }
+
+  .water button {
+    width: 40px; /* Water button thoda nana karya mobile mate */
+    height: 40px;
+  }
+}
 
 </style>
 </head>

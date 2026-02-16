@@ -231,6 +231,42 @@ button:hover{
     font-size:15px;
   }
 }
+
+/* MOBILE RESPONSIVE FIX FOR CART.HTML */
+@media (max-width: 768px) {
+  body {
+    padding: 20px 15px;
+  }
+
+  .topbar {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: 20px;
+    flex-direction: column;
+  }
+
+  .menu {
+    justify-content: center;
+  }
+
+  .checkout {
+    padding: 20px;
+  }
+
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .item span:last-child {
+    font-weight: bold;
+    color: var(--primary);
+  }
+}
+
 </style>
 </head>
 

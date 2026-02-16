@@ -171,6 +171,43 @@ input{
   color:var(--dim);
   font-size:18px;
 }
+
+/* MOBILE RESPONSIVE FIX FOR FOOD.HTML */
+@media (max-width: 768px) {
+  .nav {
+    position: relative; /* Header ne fixed mathi kadhi nakhyu */
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 20px;
+  }
+
+  .nav-links {
+    justify-content: center;
+    width: 100%;
+  }
+
+  body {
+    padding: 20px 15px; /* Upar ni padding ghataadi didhi */
+  }
+
+  .grid {
+    grid-template-columns: 1fr; /* Mobile ma ek line ma ek j photo */
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .modal-box {
+    width: 90%;
+    margin: auto;
+    max-height: 80vh;
+  }
+}
+
 </style>
 </head>
 

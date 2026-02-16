@@ -197,6 +197,47 @@ button, input{
     font-size:14px;
   }
 }
+
+/* MOBILE RESPONSIVE FIX FOR PROFILE.HTML */
+@media (max-width: 768px) {
+  body {
+    /* Mobile ma upar thi 100px jagya nathi rakhvi, karan ke header have fixed nathi */
+    padding: 20px 15px !important;
+  }
+
+  .header {
+    position: relative; /* Header ne fixed mathi kadhi nakhyu */
+    top: 0;
+    left: 0;
+    width: 100%;
+    flex-direction: column; /* Naam ane menu niche aavi jay */
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-size: 26px; /* Title thodu motu rakhyu mobile ma saru lage */
+  }
+
+  .nav-right {
+    justify-content: center; /* Badha buttons vache (center) aavi jay */
+    width: 100%;
+  }
+
+  .card {
+    margin-top: 0;
+    padding: 20px;
+    width: 100%;
+  }
+  
+  /* Inputs ane buttons thoda mota rakhya touch karva mate */
+  input, select, .btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
 </style>
 </head>
 

@@ -3,330 +3,224 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Routine | NutriTrack+</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-
+<title>Daily Routine — NutriTrack+</title>
+<meta name="description" content="Track your daily health routine, workouts, and healthy habits with NutriTrack+.">
+<link rel="stylesheet" href="styles.css">
 <style>
-:root {
-  --primary: #10b981;
-  --primary-dark: #0d8f6a;
-  --dark: #0f172a;
-  --card: rgba(30,41,59,0.85);
-  --glass: rgba(255,255,255,0.08);
-  --text: #f8fafc;
-  --dim: #94a3b8;
-  --shadow: rgba(0,0,0,0.4);
+/* Mini ring for routine progress */
+.routine-ring-wrap { display:flex; align-items:center; gap:20px; padding:4px 0 10px; }
+.mini-ring { position:relative; flex-shrink:0; }
+.mini-ring svg { transform:rotate(-90deg); }
+.mini-ring-center { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px; }
+
+.routine-prog-text { font-size:13px; color:var(--text2); line-height:1.7; }
+.routine-prog-text b { color:var(--primary); }
+
+/* Streak card */
+.streak-card {
+  background:linear-gradient(135deg,rgba(255,179,71,0.1),rgba(255,140,66,0.08));
+  border:1px solid rgba(255,179,71,0.2);
+  border-radius:var(--r-md); padding:14px 16px;
+  display:flex; align-items:center; gap:14px; margin-bottom:14px;
 }
+.streak-flame { font-size:36px; animation:flamePulse 1.5s ease-in-out infinite; }
+@keyframes flamePulse { 0%,100%{transform:scale(1) rotate(-3deg)} 50%{transform:scale(1.1) rotate(3deg)} }
+.streak-info .streak-num { font-size:28px; font-weight:900; color:#ffb347; letter-spacing:-1px; }
+.streak-info .streak-lbl { font-size:13px; color:var(--text2); }
 
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+/* Textarea */
+.notes-area {
+  width:100%; padding:14px; background:var(--surface2);
+  border:1px solid var(--border); border-radius:var(--r-md);
+  color:var(--text); font-size:14px; outline:none; resize:none;
+  min-height:90px; transition:border-color 0.2s, box-shadow 0.2s;
+  font-family:var(--font); line-height:1.6;
 }
-
-/* BODY */
-body {
-  background: linear-gradient(135deg, #0a0f20, #111827);
-  color: var(--text);
-  min-height: 100vh;
-  padding-top: 90px;
-}
-
-/* TOPBAR */
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 65px;
-  background: rgba(2,6,23,0.95);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-  z-index: 1000;
-  flex-wrap: wrap;
-}
-
-.topbar .logo {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--primary);
-}
-
-.topbar .menu {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.topbar .menu li {
-  list-style: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  color: var(--dim);
-  font-size: 14px;
-  transition: 0.3s;
-}
-
-.topbar .menu li:hover,
-.topbar .menu .active {
-  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-  color: #fff;
-}
-
-/* CONTENT */
-.content {
-  max-width: 500px;
-  margin: auto;
-  padding: 20px 15px 40px;
-}
-
-h1{ font-size:1.8rem; margin-bottom:12px; }
-p{ font-size:0.95rem; }
-
-/* CARD */
-.card {
-  background: var(--card);
-  padding: 22px;
-  border-radius: 18px;
-  margin-bottom: 20px;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
-  backdrop-filter: blur(10px);
-}
-
-/* ROUTINE ITEM */
-.routine-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 14px;
-  margin-bottom: 12px;
-  background: var(--glass);
-  border-radius: 14px;
-  transition: 0.2s;
-}
-
-.routine-item.completed label {
-  text-decoration: line-through;
-  color: var(--dim);
-}
-
-.routine-item label {
-  font-size: 14px;
-}
-
-input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--primary);
-}
-
-/* NOTES */
-textarea {
-  width: 100%;
-  margin-top: 10px;
-  padding: 12px;
-  border-radius: 14px;
-  border: none;
-  outline: none;
-  background: var(--glass);
-  color: #fff;
-  resize: none;
-  min-height: 80px;
-  font-size: 14px;
-}
-
-/* BUTTON */
-.btn {
-  margin-top: 14px;
-  width: 100%;
-  padding: 12px;
-  border-radius: 14px;
-  border: none;
-  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(16,185,129,0.4);
-  font-size: 14px;
-}
-
-.btn.secondary {
-  background: #1e293b;
-}
-
-/* PROGRESS */
-.progress {
-  text-align: center;
-  margin-bottom: 12px;
-  font-weight: 600;
-}
-
-/* RESPONSIVE */
-@media (max-width:600px){
-  .topbar{
-    padding: 0 12px;
-    height: auto;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  .topbar .logo{
-    font-size: 20px;
-  }
-
-  .topbar .menu li{
-    font-size: 13px;
-    padding: 6px 10px;
-  }
-
-  .content{
-    padding: 15px 10px 30px;
-  }
-
-  .card{
-    padding: 16px;
-    border-radius: 16px;
-  }
-
-  textarea{
-    padding: 10px;
-    font-size: 13px;
-    min-height: 70px;
-  }
-
-  .btn{
-    padding: 10px;
-    font-size: 13px;
-  }
-
-  h1{
-    font-size: 1.5rem;
-  }
-}
-
-/* MOBILE RESPONSIVE FIX FOR ROUTINE.HTML */
-@media (max-width: 768px) {
-  .topbar {
-    position: relative;
-    height: auto;
-    padding: 15px;
-    flex-direction: column;
-  }
-  
-  body {
-    padding-top: 0;
-  }
-
-  .content {
-    padding: 20px;
-  }
-}
-
+.notes-area:focus { border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-dim); }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<nav class="topbar">
-  <div class="logo">NUTRITRACK+</div>
-  <ul class="menu">
-    <li onclick="location.href='index.html'">Dashboard</li>
-    <li onclick="location.href='food.html'">Food</li>
-    <li class="active">Routine</li>
-    <li onclick="location.href='cart.html'">Cart</li>
-    <li onclick="location.href='profile.html'">Profile</li>
-  </ul>
+<!-- TOP NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo">NUTRITRACK<span style="opacity:.5">+</span></div>
+  <div class="nav-links">
+    <a href="index.html"   class="nav-link">Dashboard</a>
+    <a href="food.html"    class="nav-link">Food</a>
+    <a href="routine.html" class="nav-link active">Routine</a>
+    <a href="cart.html"    class="nav-link">Cart</a>
+    <a href="profile.html" class="nav-link">Profile</a>
+  </div>
 </nav>
 
-<!-- CONTENT -->
-<main class="content">
-<h1>Daily Routine</h1>
-<div class="progress">
-  Progress: <span id="progressText">0%</span>
-</div>
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bnav-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="food.html" class="bnav-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+    <span>Food</span>
+  </a>
+  <a href="routine.html" class="bnav-item active">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    <span>Routine</span>
+  </a>
+  <a href="cart.html" class="bnav-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+    <span>Cart</span>
+  </a>
+  <a href="profile.html" class="bnav-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+    <span>Profile</span>
+  </a>
+</nav>
 
-<div class="card">
-  <div class="routine-item">
-    <label>Morning Workout</label>
-    <input type="checkbox" id="workout">
+<main class="page">
+  <div class="page-header">
+    <h1 class="page-title">Daily Routine 🏃</h1>
+    <p class="page-subtitle" id="routineDate"></p>
   </div>
 
-  <div class="routine-item">
-    <label>8k Steps</label>
-    <input type="checkbox" id="steps">
+  <!-- STREAK CARD -->
+  <div class="streak-card">
+    <div class="streak-flame">🔥</div>
+    <div class="streak-info">
+      <div class="streak-num" id="streakVal">0</div>
+      <div class="streak-lbl">Day Streak — Keep going!</div>
+    </div>
   </div>
 
-  <div class="routine-item">
-    <label>Stretching / Warmup</label>
-    <input type="checkbox" id="stretching">
+  <!-- PROGRESS RING CARD -->
+  <div class="card">
+    <p class="card-title">Today's Progress</p>
+    <div class="routine-ring-wrap">
+      <div class="mini-ring">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <defs>
+            <linearGradient id="rRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#00f5a0"/>
+              <stop offset="100%" stop-color="#00d4ff"/>
+            </linearGradient>
+          </defs>
+          <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9"/>
+          <circle cx="45" cy="45" r="38" fill="none" stroke="url(#rRingGrad)" stroke-width="9"
+            stroke-linecap="round" id="rRingFill"
+            stroke-dasharray="238.76" stroke-dashoffset="238.76"
+            style="transition:stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1)"/>
+        </svg>
+        <div class="mini-ring-center" id="rPctText">0%</div>
+      </div>
+      <div class="routine-prog-text">
+        <b id="doneCount">0</b> of <b id="totalCount">4</b> tasks completed<br>
+        <span id="motiveLine">Start checking off your tasks! 💪</span>
+      </div>
+    </div>
   </div>
 
-  <div class="routine-item">
-    <label>Sleep 7+ hrs</label>
-    <input type="checkbox" id="sleep">
+  <!-- CHECKLIST -->
+  <div class="card">
+    <p class="card-title">Today's Checklist</p>
+
+    <div class="routine-item" id="ri-workout" onclick="toggle('workout',this)">
+      <div class="routine-check"><span class="check-mark">✓</span></div>
+      <span class="routine-emoji">🏋️</span>
+      <span class="routine-label">Morning Workout</span>
+    </div>
+
+    <div class="routine-item" id="ri-steps" onclick="toggle('steps',this)">
+      <div class="routine-check"><span class="check-mark">✓</span></div>
+      <span class="routine-emoji">👟</span>
+      <span class="routine-label">8,000 Steps</span>
+    </div>
+
+    <div class="routine-item" id="ri-stretching" onclick="toggle('stretching',this)">
+      <div class="routine-check"><span class="check-mark">✓</span></div>
+      <span class="routine-emoji">🧘</span>
+      <span class="routine-label">Stretching / Warmup</span>
+    </div>
+
+    <div class="routine-item" id="ri-sleep" onclick="toggle('sleep',this)" style="margin-bottom:0">
+      <div class="routine-check"><span class="check-mark">✓</span></div>
+      <span class="routine-emoji">😴</span>
+      <span class="routine-label">Sleep 7+ Hours</span>
+    </div>
   </div>
 
-  <textarea id="notes" placeholder="Routine notes..."></textarea>
+  <!-- NOTES -->
+  <div class="card">
+    <p class="card-title">Today's Notes</p>
+    <textarea id="notes" class="notes-area" placeholder="How are you feeling? Any notes for today…"></textarea>
+  </div>
 
-  <button class="btn" onclick="saveRoutine()">Save Routine</button>
-  <button class="btn secondary" onclick="resetRoutine()">Reset Today</button>
-</div>
+  <!-- ACTIONS -->
+  <button class="btn btn-primary btn-full" onclick="saveRoutine()">💾 Save Routine</button>
+  <button class="btn btn-ghost btn-full" style="margin-top:10px" onclick="resetRoutine()">↺ Reset Today</button>
 </main>
 
+<script src="app.js"></script>
 <script>
-const ids = ["workout","steps","stretching","sleep"];
-const key = "routine_" + new Date().toISOString().split("T")[0];
+const ITEMS = ["workout","steps","stretching","sleep"];
+const key   = "routine_" + new Date().toISOString().split("T")[0];
+const motives = ["Start checking off your tasks! 💪","You're on a roll! 🔥","More than halfway there! ⚡","Almost done! 🌟","All done! You crushed it! 🏆"];
 
-function loadRoutine(){
-  const data = JSON.parse(localStorage.getItem(key)) || {};
-  ids.forEach(id=>{
-    const el = document.getElementById(id);
-    el.checked = data[id] || false;
-    el.closest(".routine-item").classList.toggle("completed", el.checked);
-  });
-  notes.value = data.notes || "";
+document.getElementById("routineDate").textContent =
+  new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+
+// Streak
+(function(){
+  const last  = localStorage.getItem("nt_last_rdate");
+  const today = new Date().toDateString();
+  let streak  = parseInt(localStorage.getItem("nt_rstreak")) || 0;
+  if (last !== today) { streak++; localStorage.setItem("nt_rstreak",streak); localStorage.setItem("nt_last_rdate",today); }
+  document.getElementById("streakVal").textContent = streak;
+})();
+
+function toggle(id, el) {
+  el.classList.toggle("done");
   updateProgress();
 }
 
-function saveRoutine(){
-  const data = { notes: notes.value };
-  ids.forEach(id => data[id] = document.getElementById(id).checked);
-  localStorage.setItem(key, JSON.stringify(data));
-  alert("Routine saved ✔");
+function updateProgress() {
+  const done  = ITEMS.filter(id => document.getElementById("ri-"+id)?.classList.contains("done")).length;
+  const total = ITEMS.length;
+  const pct   = Math.round((done / total) * 100);
+
+  document.getElementById("rPctText").textContent = pct + "%";
+  document.getElementById("doneCount").textContent = done;
+  document.getElementById("totalCount").textContent = total;
+  document.getElementById("motiveLine").textContent = motives[done] || motives[0];
+
+  const circ   = 2 * Math.PI * 38;
+  const offset = circ - (pct / 100) * circ;
+  document.getElementById("rRingFill").style.strokeDashoffset = offset;
 }
 
-function resetRoutine(){
-  ids.forEach(id=>{
-    document.getElementById(id).checked = false;
-    document.getElementById(id).closest(".routine-item").classList.remove("completed");
+function loadRoutine() {
+  const saved = JSON.parse(localStorage.getItem(key)) || {};
+  ITEMS.forEach(id => {
+    if (saved[id]) document.getElementById("ri-"+id)?.classList.add("done");
   });
-  notes.value = "";
-  saveRoutine();
+  document.getElementById("notes").value = saved.notes || "";
+  updateProgress();
 }
 
-function updateProgress(){
-  let done = ids.filter(id => document.getElementById(id).checked).length;
-  let pct = Math.round((done / ids.length) * 100);
-  progressText.innerText = pct + "%";
+function saveRoutine() {
+  const d = { notes: document.getElementById("notes").value };
+  ITEMS.forEach(id => d[id] = document.getElementById("ri-"+id)?.classList.contains("done") || false);
+  localStorage.setItem(key, JSON.stringify(d));
+  toast("Routine saved ✓", "ok");
 }
 
-document.querySelectorAll("input").forEach(cb=>{
-  cb.addEventListener("change", e=>{
-    e.target.closest(".routine-item").classList.toggle("completed", e.target.checked);
-    updateProgress();
-  });
-});
+function resetRoutine() {
+  ITEMS.forEach(id => document.getElementById("ri-"+id)?.classList.remove("done"));
+  document.getElementById("notes").value = "";
+  updateProgress();
+  toast("Routine reset", "ok");
+}
 
 loadRoutine();
 </script>
-
 </body>
 </html>

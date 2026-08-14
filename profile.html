@@ -3,325 +3,296 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile | NutriTrack+</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-
+<title>Profile — NutriTrack+</title>
+<meta name="description" content="Manage your NutriTrack+ profile, goals, and personal health data.">
+<link rel="stylesheet" href="styles.css">
 <style>
-:root {
-  --primary: #10b981;
-  --primary-dark: #0d8f6a;
-  --dark: #020617;
-  --card: rgba(30,41,59,0.85);
-  --glass: rgba(255,255,255,0.08);
-  --text: #f8fafc;
-  --dim: #94a3b8;
-  --shadow: rgba(0,0,0,0.45);
-  --hover-glow: rgba(16,185,129,0.25);
+/* Profile hero */
+.profile-hero { text-align:center; padding:24px 20px 16px; }
+.profile-avatar {
+  width:90px; height:90px; border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  display:flex; align-items:center; justify-content:center;
+  font-size:40px; margin:0 auto 14px;
+  box-shadow:0 0 0 4px var(--bg), 0 0 0 7px rgba(0,245,160,0.25), var(--glow-sm);
 }
+.profile-name { font-size:22px; font-weight:800; letter-spacing:-0.3px; }
+.profile-email { font-size:13px; color:var(--text2); margin-top:4px; }
+.profile-badges { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:10px; }
 
-/* RESET */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Plus Jakarta Sans',sans-serif;
+/* BMI indicator */
+.bmi-scale-labels { display:flex; justify-content:space-between; font-size:10px; color:var(--text3); margin-top:4px; }
+
+/* Goal cards */
+.goal-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.goal-card {
+  border:2px solid var(--border); border-radius:var(--r-md);
+  padding:12px 10px; text-align:center; cursor:pointer;
+  transition:all 0.2s ease;
 }
+.goal-card.selected { border-color:var(--primary); background:var(--primary-dim); }
+.goal-card:hover:not(.selected) { border-color:var(--border-h); }
+.goal-card-icon { font-size:24px; margin-bottom:6px; }
+.goal-card-label { font-size:12px; font-weight:700; }
 
-body{
-  background:radial-gradient(circle at top,var(--dark),var(--dark) 60%);
-  color:var(--text);
-  padding:100px 20px 20px;
-  min-height:100vh;
-}
+/* Stats row */
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
 
-/* HEADER */
-.header{
-  position:fixed;
-  top:10px;
-  left:10px;
-  right:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:100;
-  flex-wrap:wrap;
-}
-
-.header h1{
-  font-size:24px;
-  font-weight:700;
-}
-
-.nav-right{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:5px;
-}
-
-.nav-btn{
-  padding:8px 14px;
-  border-radius:12px;
-  text-decoration:none;
-  font-weight:600;
-  color:var(--dim);
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(6px);
-  transition:.25s;
-  font-size:14px;
-}
-
-.nav-btn:hover{
-  background:var(--glass);
-  color:#fff;
-  transform:translateY(-1px);
-  box-shadow:0 4px 12px var(--hover-glow);
-}
-
-.nav-btn.active{
-  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
-  color:#fff;
-  box-shadow:0 4px 12px var(--hover-glow);
-}
-
-.nav-btn.logout{
-  background:rgba(239,68,68,.15);
-  color:#fecaca;
-}
-
-.nav-btn.logout:hover{
-  background:rgba(239,68,68,.35);
-  color:#fff;
-}
-
-/* CARD */
-.card{
-  background:var(--card);
-  backdrop-filter:blur(18px);
-  padding:22px;
-  border-radius:22px;
-  max-width:500px;
-  margin:20px auto;
-  box-shadow:0 15px 35px var(--shadow);
-}
-
-.card h3{
-  margin-bottom:12px;
-  font-size:18px;
-}
-
-/* FORM */
-label{
-  display:block;
-  margin-bottom:6px;
-  font-size:13px;
-}
-
-input,select{
-  width:100%;
-  padding:12px 14px;
-  border-radius:14px;
-  border:none;
-  margin-bottom:16px;
-  background:var(--glass);
-  color:var(--text);
-  outline:none;
-  font-size:14px;
-}
-
-/* BUTTONS */
-button, input{
-  padding:10px 14px;
-  font-size:14px;
-}
-
-.btn{
-  width:100%;
-  background:linear-gradient(90deg,var(--primary),var(--primary-dark));
-  border:none;
-  padding:12px;
-  border-radius:14px;
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-  box-shadow:0 4px 16px var(--hover-glow);
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-  filter:brightness(1.1);
-}
-
-.small{
-  color:var(--dim);
-  font-size:12px;
-  margin-top:8px;
-  text-align:center;
-}
-
-/* RESPONSIVE */
-@media (max-width:600px){
-  body{
-    padding:80px 15px 15px;
-  }
-
-  .header{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:6px;
-  }
-
-  .header h1{
-    font-size:20px;
-  }
-
-  .nav-btn{
-    font-size:13px;
-    padding:6px 10px;
-  }
-
-  .card{
-    padding:18px;
-    border-radius:18px;
-    max-width:100%;
-  }
-
-  input, select{
-    padding:10px 12px;
-    font-size:13px;
-  }
-
-  .btn{
-    padding:10px;
-    font-size:14px;
-  }
-}
-
-/* MOBILE RESPONSIVE FIX FOR PROFILE.HTML */
-@media (max-width: 768px) {
-  body {
-    /* Mobile ma upar thi 100px jagya nathi rakhvi, karan ke header have fixed nathi */
-    padding: 20px 15px !important;
-  }
-
-  .header {
-    position: relative; /* Header ne fixed mathi kadhi nakhyu */
-    top: 0;
-    left: 0;
-    width: 100%;
-    flex-direction: column; /* Naam ane menu niche aavi jay */
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-
-  .header h1 {
-    font-size: 26px; /* Title thodu motu rakhyu mobile ma saru lage */
-  }
-
-  .nav-right {
-    justify-content: center; /* Badha buttons vache (center) aavi jay */
-    width: 100%;
-  }
-
-  .card {
-    margin-top: 0;
-    padding: 20px;
-    width: 100%;
-  }
-  
-  /* Inputs ane buttons thoda mota rakhya touch karva mate */
-  input, select, .btn {
-    padding: 14px;
-    font-size: 16px;
-  }
-}
-
+/* Danger zone */
+.danger-zone { border-color:rgba(255,77,109,0.2) !important; }
+.danger-zone .card-title { color:var(--danger); }
 </style>
 </head>
-
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <h1>Profile</h1>
-  <div class="nav-right">
-    <a href="index.html" class="nav-btn">Dashboard</a>
-    <a href="food.html" class="nav-btn">Food</a>
-    <a href="routine.html" class="nav-btn">Routine</a>
-    <a href="cart.html" class="nav-btn">Cart</a>
-    <a href="#" class="nav-btn logout" onclick="logout()">Logout</a>
+<!-- TOP NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo">NUTRITRACK<span style="opacity:.5">+</span></div>
+  <div class="nav-links">
+    <a href="index.html"   class="nav-link">Dashboard</a>
+    <a href="food.html"    class="nav-link">Food</a>
+    <a href="routine.html" class="nav-link">Routine</a>
+    <a href="cart.html"    class="nav-link">Cart</a>
+    <a href="profile.html" class="nav-link active">Profile</a>
   </div>
-</div>
+</nav>
 
-<!-- USER INFO -->
-<div class="card">
-  <h3>User Info</h3>
-  <label>Name</label>
-  <input id="username">
-  <label>Age</label>
-  <input type="number" id="age">
-  <label>Weight (kg)</label>
-  <input type="number" id="weight">
-  <label>Height (cm)</label>
-  <input type="number" id="height">
-</div>
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bnav-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="food.html" class="bnav-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+    <span>Food</span>
+  </a>
+  <a href="routine.html" class="bnav-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    <span>Routine</span>
+  </a>
+  <a href="cart.html" class="bnav-item">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+    <span>Cart</span>
+  </a>
+  <a href="profile.html" class="bnav-item active">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+    <span>Profile</span>
+  </a>
+</nav>
 
-<!-- GOALS -->
-<div class="card">
-  <h3>Goals</h3>
-  <label>Goal Type</label>
-  <select id="goalType">
-    <option value="weightLoss">Weight Loss</option>
-    <option value="maintain">Maintain Weight</option>
-    <option value="muscleGain">Muscle Gain</option>
-  </select>
-  <label>Daily Calorie Goal</label>
-  <input type="number" id="dailyCal">
-</div>
+<main class="page">
 
-<!-- SAVE -->
-<div class="card">
-  <button class="btn" onclick="saveProfileData()">Save Profile</button>
-  <p class="small">Saved locally in your browser</p>
-</div>
+  <!-- PROFILE HERO -->
+  <div class="card profile-hero" style="margin-bottom:14px">
+    <div class="profile-avatar" id="avatarEl">👤</div>
+    <div class="profile-name" id="profileNameDisplay">Your Profile</div>
+    <div class="profile-email">hardik@gmail.com</div>
+    <div class="profile-badges">
+      <span class="badge badge-green">🔥 <span id="heroStreak">0</span> day streak</span>
+      <span class="badge" id="goalBadge" style="background:rgba(0,212,255,0.1);color:#00d4ff">🎯 Maintain</span>
+    </div>
+  </div>
 
+  <!-- STATS ROW -->
+  <div class="stats-row" style="margin-bottom:14px">
+    <div class="stat-card">
+      <div class="stat-value" id="statCal">0</div>
+      <div class="stat-label">Cal Today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statWater">0</div>
+      <div class="stat-label">Glasses</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statDays">0</div>
+      <div class="stat-label">Days Active</div>
+    </div>
+  </div>
+
+  <!-- USER INFO -->
+  <div class="card">
+    <p class="card-title">Personal Info</p>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">Full Name</label>
+        <input id="username" class="input" placeholder="Hardik Shah">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Age</label>
+        <input id="age" class="input" type="number" placeholder="25" min="10" max="100">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Weight (kg)</label>
+        <input id="weight" class="input" type="number" placeholder="70" oninput="calcBMI()">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Height (cm)</label>
+        <input id="height" class="input" type="number" placeholder="170" oninput="calcBMI()">
+      </div>
+    </div>
+    <div class="input-group" style="margin-bottom:0">
+      <label class="input-label">Gender</label>
+      <select id="gender" class="input">
+        <option value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- BMI CARD -->
+  <div class="card">
+    <p class="card-title">BMI Calculator</p>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <span style="color:var(--text2);font-size:14px">Body Mass Index</span>
+      <span id="bmiValue" style="font-size:22px;font-weight:900;color:var(--primary)">—</span>
+    </div>
+    <div class="bmi-meter">
+      <div class="bmi-fill" id="bmiFill" style="width:0%"></div>
+    </div>
+    <div class="bmi-scale-labels">
+      <span>Underweight<br>&lt;18.5</span>
+      <span style="text-align:center">Normal<br>18.5–25</span>
+      <span>Overweight<br>25–30</span>
+      <span style="text-align:right">Obese<br>&gt;30</span>
+    </div>
+    <div id="bmiStatus" style="margin-top:10px;font-size:13px;color:var(--text2);text-align:center"></div>
+  </div>
+
+  <!-- GOALS -->
+  <div class="card">
+    <p class="card-title">Fitness Goal</p>
+    <div class="goal-grid" style="margin-bottom:16px">
+      <div class="goal-card" id="g-weightLoss" onclick="selectGoal('weightLoss')">
+        <div class="goal-card-icon">⬇️</div>
+        <div class="goal-card-label">Lose Weight</div>
+      </div>
+      <div class="goal-card selected" id="g-maintain" onclick="selectGoal('maintain')">
+        <div class="goal-card-icon">⚖️</div>
+        <div class="goal-card-label">Maintain</div>
+      </div>
+      <div class="goal-card" id="g-muscleGain" onclick="selectGoal('muscleGain')">
+        <div class="goal-card-icon">💪</div>
+        <div class="goal-card-label">Muscle Gain</div>
+      </div>
+    </div>
+    <div class="input-group" style="margin-bottom:0">
+      <label class="input-label">Daily Calorie Goal</label>
+      <input id="dailyCal" class="input" type="number" placeholder="2000" min="800" max="5000">
+    </div>
+  </div>
+
+  <!-- SAVE -->
+  <button class="btn btn-primary btn-full" onclick="saveProfile()">💾 Save Profile</button>
+
+  <!-- DANGER ZONE -->
+  <div class="card danger-zone" style="margin-top:20px">
+    <p class="card-title">Danger Zone</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:14px">This will log you out and clear session data.</p>
+    <button class="btn btn-danger btn-full" onclick="logout()">🚪 Logout</button>
+  </div>
+
+</main>
+
+<script src="app.js"></script>
 <script>
-if(localStorage.getItem("loggedIn")!=="true"){
-  window.location.href="login.html";
+if (localStorage.getItem("loggedIn") !== "true") window.location.href = "login.html";
+
+const prof = JSON.parse(localStorage.getItem("profileData")) || {};
+let selectedGoal = prof.goalType || "maintain";
+
+/* ── Load Stats ── */
+(function() {
+  const todayKey = new Date().toISOString().split("T")[0];
+  const store = JSON.parse(localStorage.getItem("nutri+")) || {};
+  const today = store[todayKey] || { cal:0, water:0 };
+  animCount(document.getElementById("statCal"),   today.cal);
+  animCount(document.getElementById("statWater"), today.water);
+  animCount(document.getElementById("statDays"),  Object.keys(store).length);
+  document.getElementById("heroStreak").textContent = localStorage.getItem("nt_streak") || "0";
+})();
+
+/* ── Load Profile ── */
+function loadProfile() {
+  if (prof.username) {
+    document.getElementById("username").value     = prof.username;
+    document.getElementById("profileNameDisplay").textContent = prof.username;
+    // Dynamic avatar initial
+    const initial = prof.username.charAt(0).toUpperCase();
+    document.getElementById("avatarEl").textContent = initial || "👤";
+  }
+  if (prof.age)      document.getElementById("age").value      = prof.age;
+  if (prof.weight)   document.getElementById("weight").value   = prof.weight;
+  if (prof.height)   document.getElementById("height").value   = prof.height;
+  if (prof.gender)   document.getElementById("gender").value   = prof.gender;
+  if (prof.dailyCal) document.getElementById("dailyCal").value = prof.dailyCal;
+  selectGoal(prof.goalType || "maintain");
+  calcBMI();
 }
 
-function logout(){
+function selectGoal(g) {
+  selectedGoal = g;
+  ["weightLoss","maintain","muscleGain"].forEach(id => {
+    document.getElementById("g-"+id).classList.toggle("selected", id === g);
+  });
+  const labels = { weightLoss:"⬇️ Lose Weight", maintain:"⚖️ Maintain", muscleGain:"💪 Muscle Gain" };
+  document.getElementById("goalBadge").textContent = "🎯 " + labels[g];
+}
+
+function calcBMI() {
+  const w = parseFloat(document.getElementById("weight").value);
+  const h = parseFloat(document.getElementById("height").value) / 100;
+  if (!w || !h || h <= 0) return;
+  const bmi = (w / (h * h)).toFixed(1);
+  document.getElementById("bmiValue").textContent = bmi;
+
+  let status, pct;
+  if      (bmi < 18.5) { status = "😟 Underweight — eat more nutritious foods"; pct = Math.min(bmi/18.5*25, 24); }
+  else if (bmi < 25)   { status = "✅ Normal weight — great job!"; pct = 25 + ((bmi-18.5)/(25-18.5))*25; }
+  else if (bmi < 30)   { status = "⚠️ Overweight — watch your caloric intake"; pct = 50 + ((bmi-25)/5)*25; }
+  else                  { status = "🚨 Obese — consult a healthcare professional"; pct = Math.min(75 + ((bmi-30)/10)*25, 98); }
+
+  document.getElementById("bmiFill").style.width  = pct + "%";
+  document.getElementById("bmiStatus").textContent = status;
+}
+
+function saveProfile() {
+  const data = {
+    username:  document.getElementById("username").value.trim(),
+    age:       document.getElementById("age").value,
+    weight:    document.getElementById("weight").value,
+    height:    document.getElementById("height").value,
+    gender:    document.getElementById("gender").value,
+    goalType:  selectedGoal,
+    dailyCal:  document.getElementById("dailyCal").value,
+  };
+  localStorage.setItem("profileData", JSON.stringify(data));
+
+  // Update calorie goal in nutri+ store
+  if (data.dailyCal) {
+    const todayKey = new Date().toISOString().split("T")[0];
+    const store = JSON.parse(localStorage.getItem("nutri+")) || {};
+    if (store[todayKey]) { store[todayKey].goal = parseInt(data.dailyCal); localStorage.setItem("nutri+", JSON.stringify(store)); }
+  }
+
+  // Update display
+  if (data.username) {
+    document.getElementById("profileNameDisplay").textContent = data.username;
+    document.getElementById("avatarEl").textContent = data.username.charAt(0).toUpperCase();
+  }
+
+  toast("Profile saved ✓", "ok");
+}
+
+function logout() {
   localStorage.removeItem("loggedIn");
-  window.location.href="login.html";
+  toast("Logged out", "ok");
+  setTimeout(() => window.location.href = "login.html", 600);
 }
 
-const profile=JSON.parse(localStorage.getItem("profileData"))||{};
-
-function loadProfileData(){
-  username.value=profile.username||"";
-  age.value=profile.age||"";
-  weight.value=profile.weight||"";
-  height.value=profile.height||"";
-  goalType.value=profile.goalType||"maintain";
-  dailyCal.value=profile.dailyCal||"";
-}
-
-function saveProfileData(){
-  localStorage.setItem("profileData",JSON.stringify({
-    username:username.value,
-    age:age.value,
-    weight:weight.value,
-    height:height.value,
-    goalType:goalType.value,
-    dailyCal:dailyCal.value
-  }));
-  alert("Profile saved ✔");
-}
-
-loadProfileData();
+loadProfile();
 </script>
-
 </body>
-</html> 
+</html>

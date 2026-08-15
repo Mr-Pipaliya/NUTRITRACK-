@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders — NutriTrack+</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    .order-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+    .order-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px dashed var(--border); }
+    .order-id { font-size: 16px; font-weight: 900; color: var(--text); }
+    .order-date { font-size: 12px; color: var(--text3); margin-top: 4px; }
+    .order-status { font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: var(--r-pill); background: rgba(0, 245, 160, 0.15); color: var(--primary); }
+    
+    .order-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .o-item { display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+    .o-item-name { font-weight: 600; color: var(--text2); display: flex; align-items: center; gap: 8px; }
+    .o-item-price { font-weight: 700; color: var(--text); }
+    
+    .order-footer { display: flex; justify-content: space-between; align-items: center; background: var(--surface); padding: 12px 16px; border-radius: var(--r-md); }
+    .order-total-label { font-size: 12px; color: var(--text3); font-weight: 700; text-transform: uppercase; }
+    .order-total-val { font-size: 18px; font-weight: 900; color: var(--primary); }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <nav class="navbar">
+    <div class="container" style="max-width: 800px;">
+      <div class="logo">
+        <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+        <span class="logo-text" style="font-size: 16px;">NutriTrack+</span>
+      </div>
+      <div class="nav-links">
+        <a href="dashboard.html"><i class="fas fa-home"></i><span class="nav-text">Home</span></a>
+        <a href="food.html"><i class="fas fa-book-open"></i><span class="nav-text">Food</span></a>
+        <a href="routine.html"><i class="fas fa-check-square"></i><span class="nav-text">Routine</span></a>
+        <a href="store.html"><i class="fas fa-shopping-bag"></i><span class="nav-text">Store</span></a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="nav-text">Cart</span></a>
+        <a href="profile.html" class="active"><i class="fas fa-user"></i><span class="nav-text">Profile</span></a>
+        <button class="theme-toggle" style="width: 36px; height: 36px; border-radius: 12px; background: var(--surface); color: var(--text2); margin-left: 8px;"><i class="theme-icon fas fa-moon"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="app-container" style="padding-top: 24px;">
+    
+    <div id="ordersList">
+      <div style="text-align: center; padding: 40px; color: var(--text3);">
+        <i class="fas fa-spinner fa-spin fa-2x"></i>
+        <p style="margin-top: 12px;">Loading orders...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/local-db.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/orders.js"></script>
+</body>
+</html>

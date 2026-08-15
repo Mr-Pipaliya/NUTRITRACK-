@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — NutriTrack+</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* Calorie Ring SVG */
+    .ring-container { display: flex; flex-direction: column; align-items: center; position: relative; padding: 20px 0; }
+    .progress-ring { width: 200px; height: 200px; transform: rotate(-90deg); filter: drop-shadow(0 0 8px rgba(0,245,160,0.4)); }
+    .progress-ring-bg { fill: none; stroke: var(--surface); stroke-width: 14; }
+    .progress-ring-fg { fill: none; stroke: url(#ringGrad); stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1); }
+    .ring-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+    .ring-center h2 { font-size: 36px; font-weight: 900; line-height: 1; }
+    .ring-center p { font-size: 12px; color: var(--text3); font-weight: 600; margin-top: 4px; }
+    
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center; margin-top: 16px; }
+    .stat-box h3 { font-size: 18px; font-weight: 900; }
+    .stat-box p { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-top: 4px; }
+    
+    /* Macro Bars */
+    .macro-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .macro-label { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+    .macro-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .macro-val { font-size: 14px; font-weight: 700; }
+    .macro-track { height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; margin-bottom: 16px; }
+    .macro-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+    
+    /* Water Grid */
+    .water-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin-top: 12px; }
+    .water-drop {
+      aspect-ratio: 1; border-radius: 50% 50% 10% 50%; transform: rotate(-45deg);
+      border: 2px solid var(--primary2); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: 0.2s; background: transparent;
+    }
+    .water-drop.filled { background: var(--primary2); }
+    .water-drop i { transform: rotate(45deg); font-size: 12px; color: var(--primary2); opacity: 0; transition: 0.2s; }
+    .water-drop.filled i { color: #fff; opacity: 1; }
+    
+    /* Food Log */
+    .log-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .log-item:last-child { border-bottom: none; }
+    .log-name { font-size: 14px; font-weight: 600; }
+    .log-time { font-size: 12px; color: var(--text3); margin-top: 2px; }
+    .log-cal { font-size: 14px; font-weight: 700; color: var(--primary); }
+    .log-del { color: var(--text3); padding: 4px; border-radius: 4px; margin-left: 8px; transition: 0.2s; cursor: pointer; }
+    .log-del:hover { color: var(--danger); background: rgba(255, 77, 109, 0.1); }
+    
+    .streak-badge { background: rgba(255, 179, 71, 0.15); color: var(--warning); padding: 6px 12px; border-radius: var(--r-pill); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+    
+    .fab { position: fixed; bottom: calc(var(--bnav-h) + 20px); right: 20px; z-index: 900; width: 56px; height: 56px; border-radius: 28px; font-size: 20px; box-shadow: 0 8px 24px var(--primary-glow); }
+    @media (min-width: 769px) { .fab { bottom: 30px; right: calc((100% - 600px) / 2 + 20px); } }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <nav class="navbar">
+    <div class="container" style="max-width: 800px;">
+      <div class="logo">
+        <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+        <span class="logo-text" style="font-size: 16px;">NutriTrack+</span>
+      </div>
+      <div class="nav-links">
+        <a href="dashboard.html" class="active"><i class="fas fa-home"></i><span class="nav-text">Home</span></a>
+        <a href="food.html"><i class="fas fa-book-open"></i><span class="nav-text">Food</span></a>
+        <a href="routine.html"><i class="fas fa-check-square"></i><span class="nav-text">Routine</span></a>
+        <a href="store.html"><i class="fas fa-shopping-bag"></i><span class="nav-text">Store</span></a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="nav-text">Cart</span></a>
+        <a href="profile.html"><i class="fas fa-user"></i><span class="nav-text">Profile</span></a>
+        <span class="streak-badge" id="streakBadge" style="display: none;"><i class="fas fa-fire"></i> <span id="streakCount">0</span></span>
+        <button class="theme-toggle" style="width: 36px; height: 36px; border-radius: 12px; background: var(--surface); color: var(--text2); margin-left: 8px;"><i class="theme-icon fas fa-moon"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="app-container">
+    <header class="page-header">
+      <div>
+        <h1 id="greetingMsg">Good Morning 👋</h1>
+        <p id="dateDisplay">Loading date...</p>
+      </div>
+    </header>
+
+    <!-- Calorie Ring Card -->
+    <div class="card">
+      <div class="ring-container">
+        <svg class="progress-ring" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00F5A0" />
+              <stop offset="100%" stop-color="#00D4FF" />
+            </linearGradient>
+          </defs>
+          <circle class="progress-ring-bg" cx="100" cy="100" r="80"></circle>
+          <circle class="progress-ring-fg" id="calorieRing" cx="100" cy="100" r="80" stroke-dasharray="502" stroke-dashoffset="502"></circle>
+        </svg>
+        <div class="ring-center">
+          <h2 class="text-gradient" id="calConsumed">0</h2>
+          <p>kcal eaten</p>
+        </div>
+      </div>
+      
+      <div class="stats-row">
+        <div class="stat-box">
+          <h3 id="calGoal">2000</h3>
+          <p>Goal</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="calRemaining">2000</h3>
+          <p>Remaining</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="calPct" class="text-gradient">0%</h3>
+          <p>Progress</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Macros Card -->
+    <div class="card">
+      <h3 class="card-title">Macronutrients</h3>
+      
+      <div class="macro-row">
+        <div class="macro-label">
+          <div class="macro-icon" style="background: rgba(0, 245, 160, 0.15); color: #00F5A0;"><i class="fas fa-drumstick-bite"></i></div>
+          <span>Protein</span>
+        </div>
+        <div class="macro-val" style="color: #00F5A0;"><span id="proVal">0</span>g <span style="font-size: 11px; color: var(--text3); font-weight: 500;">/ <span id="proTarget">150</span>g</span></div>
+      </div>
+      <div class="macro-track"><div class="macro-fill" id="proBar" style="background: linear-gradient(90deg, #00F5A088, #00F5A0); width: 0%;"></div></div>
+      
+      <div class="macro-row">
+        <div class="macro-label">
+          <div class="macro-icon" style="background: rgba(0, 212, 255, 0.15); color: #00D4FF;"><i class="fas fa-bread-slice"></i></div>
+          <span>Carbs</span>
+        </div>
+        <div class="macro-val" style="color: #00D4FF;"><span id="carbsVal">0</span>g <span style="font-size: 11px; color: var(--text3); font-weight: 500;">/ <span id="carbsTarget">250</span>g</span></div>
+      </div>
+      <div class="macro-track"><div class="macro-fill" id="carbsBar" style="background: linear-gradient(90deg, #00D4FF88, #00D4FF); width: 0%;"></div></div>
+      
+      <div class="macro-row">
+        <div class="macro-label">
+          <div class="macro-icon" style="background: rgba(255, 179, 71, 0.15); color: #FFB347;"><i class="fas fa-cheese"></i></div>
+          <span>Fat</span>
+        </div>
+        <div class="macro-val" style="color: #FFB347;"><span id="fatVal">0</span>g <span style="font-size: 11px; color: var(--text3); font-weight: 500;">/ <span id="fatTarget">65</span>g</span></div>
+      </div>
+      <div class="macro-track"><div class="macro-fill" id="fatBar" style="background: linear-gradient(90deg, #FFB34788, #FFB347); width: 0%;"></div></div>
+    </div>
+
+    <!-- Water Tracker Card -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 class="card-title" style="margin: 0;">Water Intake</h3>
+        <span style="font-size: 14px; font-weight: 700; color: #00D4FF;"><span id="waterCount">0</span><span style="color: var(--text3); font-weight: 500;">/8 glasses</span></span>
+      </div>
+      <div class="water-grid" id="waterGrid">
+        <!-- JS fills 8 drops -->
+      </div>
+    </div>
+
+    <!-- Today's Log Card -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 class="card-title" style="margin: 0;">Today's Log</h3>
+        <span class="badge" id="logCount" style="background: var(--surface); padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 700;">0 ITEMS</span>
+      </div>
+      <div id="foodLogList">
+        <p style="text-align: center; color: var(--text3); font-size: 13px; padding: 20px 0;">No foods logged yet. Tap + to add.</p>
+      </div>
+    </div>
+
+    <!-- 7-Day Chart -->
+    <div class="card">
+      <h3 class="card-title">7-Day History</h3>
+      <div style="height: 200px; width: 100%;">
+        <canvas id="weeklyChart"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <!-- FAB -->
+  <button class="btn-primary fab" onclick="openModal('quickAddModal')">
+    <i class="fas fa-plus"></i>
+  </button>
+
+  <!-- Quick Add Modal -->
+  <div class="modal-overlay" id="quickAddModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 style="font-weight: 800;">Quick Add Food</h3>
+        <button class="modal-close" onclick="closeModal('quickAddModal')"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="quickAddForm" style="display: flex; gap: 12px; margin-bottom: 24px;">
+        <input type="text" id="qaName" class="form-input" placeholder="Food name..." required style="flex: 1;">
+        <input type="number" id="qaCal" class="form-input" placeholder="kcal" required style="width: 80px;" min="1">
+        <button type="submit" class="btn btn-primary" style="padding: 0 16px;"><i class="fas fa-check"></i></button>
+      </form>
+      <div style="text-align: center; margin: 16px 0; border-top: 1px solid var(--border); padding-top: 16px;">
+        <p style="font-size: 12px; font-weight: 700; color: var(--text3); text-transform: uppercase;">Or explore database</p>
+        <a href="food.html" class="btn btn-outline btn-full" style="margin-top: 12px;"><i class="fas fa-search"></i> Search Food Explorer</a>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/local-db.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

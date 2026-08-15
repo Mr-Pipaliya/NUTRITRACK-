@@ -1,276 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout — NutriTrack+</title>
-<meta name="description" content="Review your fermented food cart and complete checkout on NutriTrack+.">
-<link rel="stylesheet" href="styles.css">
-<style>
-.cart-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); overflow:hidden; margin-bottom:14px; }
-.cart-header { padding:16px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
-.cart-items-list { padding:0 4px; }
-
-.total-row {
-  padding:16px 18px; border-top:1px solid var(--border);
-  display:flex; justify-content:space-between; align-items:center;
-}
-.total-label { font-size:14px; color:var(--text2); font-weight:600; }
-.total-val   { font-size:22px; font-weight:900; color:var(--primary); }
-
-/* Pay details */
-.pay-extra { margin-top:12px; }
-.pay-extra .input { margin-bottom:10px; }
-
-.qr-box { text-align:center; padding:12px 0; }
-.qr-box img { width:160px; height:160px; border-radius:12px; margin:0 auto 8px; }
-.upi-id-text { font-size:12px; color:var(--text2); font-family:monospace; }
-
-/* Thank you overlay */
-.ty-overlay {
-  position:fixed; inset:0; z-index:3000;
-  background:rgba(4,9,26,0.96);
-  backdrop-filter:blur(20px);
-  display:none; flex-direction:column;
-  align-items:center; justify-content:center;
-  text-align:center; padding:40px;
-}
-.ty-overlay.show { display:flex; animation:fadeIn 0.4s ease; }
-.ty-check { font-size:80px; animation:bounceIn 0.6s cubic-bezier(0.34,1.56,0.64,1); }
-@keyframes bounceIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
-
-/* Confetti */
-.confetti-piece {
-  position:fixed; top:-10px; border-radius:2px;
-  animation:confettiFall linear forwards;
-  pointer-events:none; z-index:3001;
-}
-@keyframes confettiFall {
-  to { transform:translateY(110vh) rotate(720deg); opacity:0; }
-}
-
-.empty-cart { text-align:center; padding:40px 20px; color:var(--text3); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart — NutriTrack+</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    .cart-item { display: flex; gap: 16px; padding: 16px; border-bottom: 1px solid var(--border); }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-img { width: 80px; height: 80px; border-radius: var(--r-md); object-fit: cover; background: var(--surface); }
+    .cart-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .cart-name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .cart-price { font-size: 14px; font-weight: 900; color: var(--primary); }
+    
+    .qty-controls { display: flex; align-items: center; gap: 12px; }
+    .qty-btn { width: 28px; height: 28px; border-radius: 8px; background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--text); font-weight: 700; transition: 0.2s; }
+    .qty-btn:hover { background: var(--surface2); }
+    .qty-val { font-size: 14px; font-weight: 700; width: 16px; text-align: center; }
+    
+    .cart-del { color: var(--text3); font-size: 18px; padding: 4px; transition: 0.2s; }
+    .cart-del:hover { color: var(--danger); }
+    
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+    .summary-total { display: flex; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border); font-size: 18px; font-weight: 900; color: var(--primary); }
+  </style>
 </head>
 <body>
 
-<!-- TOP NAVBAR -->
-<nav class="navbar">
-  <div class="nav-logo">NUTRITRACK<span style="opacity:.5">+</span></div>
-  <div class="nav-links">
-    <a href="index.html"   class="nav-link">Dashboard</a>
-    <a href="food.html"    class="nav-link">Food</a>
-    <a href="routine.html" class="nav-link">Routine</a>
-    <a href="cart.html"    class="nav-link active">Cart</a>
-    <a href="profile.html" class="nav-link">Profile</a>
-  </div>
-</nav>
-
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <a href="index.html" class="bnav-item">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-    <span>Home</span>
-  </a>
-  <a href="food.html" class="bnav-item">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
-    <span>Food</span>
-  </a>
-  <a href="routine.html" class="bnav-item">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-    <span>Routine</span>
-  </a>
-  <a href="cart.html" class="bnav-item active">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-    <span>Cart</span>
-  </a>
-  <a href="profile.html" class="bnav-item">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-    <span>Profile</span>
-  </a>
-</nav>
-
-<!-- THANK YOU OVERLAY -->
-<div class="ty-overlay" id="tyOverlay">
-  <div class="ty-check">✅</div>
-  <h2 style="font-size:28px;font-weight:900;margin:16px 0 8px;letter-spacing:-0.5px">Order Placed!</h2>
-  <p style="color:var(--text2);font-size:15px">Thank you for your order.<br>Redirecting to dashboard…</p>
-</div>
-
-<main class="page">
-  <div class="page-header">
-    <h1 class="page-title">Checkout 🛒</h1>
-    <p class="page-subtitle" id="cartCount">0 items</p>
-  </div>
-
-  <!-- CART ITEMS -->
-  <div class="cart-wrap" id="cartWrap">
-    <div class="cart-header">
-      <span class="section-title">Your Items</span>
-      <span class="section-action" onclick="clearCart()">Clear all</span>
+  <!-- Top Nav -->
+  <nav class="navbar">
+    <div class="container" style="max-width: 800px;">
+      <div class="logo">
+        <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+        <span class="logo-text" style="font-size: 16px;">NutriTrack+</span>
+      </div>
+      <div class="nav-links">
+        <a href="dashboard.html"><i class="fas fa-home"></i><span class="nav-text">Home</span></a>
+        <a href="food.html"><i class="fas fa-book-open"></i><span class="nav-text">Food</span></a>
+        <a href="routine.html"><i class="fas fa-check-square"></i><span class="nav-text">Routine</span></a>
+        <a href="store.html"><i class="fas fa-shopping-bag"></i><span class="nav-text">Store</span></a>
+        <a href="cart.html" class="active"><i class="fas fa-shopping-cart"></i><span class="nav-text">Cart</span></a>
+        <a href="profile.html"><i class="fas fa-user"></i><span class="nav-text">Profile</span></a>
+        <button class="theme-toggle" style="width: 36px; height: 36px; border-radius: 12px; background: var(--surface); color: var(--text2); margin-left: 8px;"><i class="theme-icon fas fa-moon"></i></button>
+      </div>
     </div>
-    <div class="cart-items-list" id="cartList"></div>
-    <div class="total-row">
-      <span class="total-label">Total</span>
-      <span class="total-val">₹<span id="totalAmt">0</span></span>
-    </div>
-  </div>
+  </nav>
 
-  <!-- PAYMENT -->
-  <div class="card" id="paymentCard">
-    <p class="card-title">Payment Method</p>
-
-    <div class="pay-option selected" id="po-upi" onclick="selectPay('upi')">
-      <div class="pay-radio"></div>
+  <main class="app-container">
+    <header class="page-header" style="margin-bottom: 16px;">
       <div>
-        <div class="pay-label">📱 UPI / QR Code</div>
-        <div class="pay-desc">Pay via Google Pay, PhonePe, Paytm</div>
+        <h1>Your Cart</h1>
+        <p>Review items before checkout</p>
+      </div>
+    </header>
+
+    <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 24px;">
+      <div id="cartList">
+        <div style="text-align: center; padding: 40px; color: var(--text3);">
+          <i class="fas fa-shopping-cart fa-2x" style="opacity: 0.5; margin-bottom: 12px;"></i>
+          <p>Your cart is empty.</p>
+          <a href="store.html" class="btn btn-outline" style="margin-top: 16px;">Browse Store</a>
+        </div>
       </div>
     </div>
 
-    <div id="upiDetails" class="pay-extra">
-      <div class="input-group"><input class="input" id="payerName" placeholder="Your Name"></div>
-      <div class="qr-box">
-        <img id="qrImg" alt="QR Code">
-        <div class="upi-id-text" id="upiIdText"></div>
-      </div>
+    <div id="cartSummary" class="card hide">
+      <h3 class="card-title">Order Summary</h3>
+      <div class="summary-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+      <div class="summary-row"><span>Delivery</span><span id="deliveryFee">₹50</span></div>
+      <div class="summary-total"><span>Total</span><span id="totalAmount">₹0</span></div>
+      
+      <a href="checkout.html" class="btn btn-primary btn-full" style="margin-top: 24px; padding: 16px;">
+        Proceed to Checkout <i class="fas fa-arrow-right"></i>
+      </a>
     </div>
+  </main>
 
-    <div class="pay-option" id="po-card" onclick="selectPay('card')">
-      <div class="pay-radio"></div>
-      <div>
-        <div class="pay-label">💳 Card Payment</div>
-        <div class="pay-desc">Credit / Debit card</div>
-      </div>
-    </div>
 
-    <div id="cardDetails" class="pay-extra" style="display:none">
-      <div class="input-group"><input class="input" placeholder="Card Holder Name"></div>
-      <div class="input-group"><input class="input" placeholder="Card Number (16 digits)" maxlength="19"></div>
-      <div class="grid-2">
-        <div class="input-group"><input class="input" placeholder="MM / YY" maxlength="5"></div>
-        <div class="input-group"><input class="input" placeholder="CVV" maxlength="3" type="password"></div>
-      </div>
-    </div>
 
-    <div class="pay-option" id="po-cod" onclick="selectPay('cod')">
-      <div class="pay-radio"></div>
-      <div>
-        <div class="pay-label">💵 Cash on Delivery</div>
-        <div class="pay-desc">Pay when you receive</div>
-      </div>
-    </div>
-
-    <button class="btn btn-primary btn-full" id="confirmBtn" style="margin-top:20px" onclick="confirmOrder()">
-      Confirm Order →
-    </button>
-  </div>
-</main>
-
-<script src="app.js"></script>
-<script>
-let cart  = JSON.parse(localStorage.getItem("cart")) || [];
-let total = 0;
-let payMethod = "upi";
-
-function renderCart() {
-  const list = document.getElementById("cartList");
-  total = cart.reduce((s, i) => s + i.price, 0);
-  document.getElementById("cartCount").textContent  = cart.length + " item" + (cart.length !== 1 ? "s" : "");
-  document.getElementById("totalAmt").textContent   = total;
-
-  if (!cart.length) {
-    list.innerHTML = `<div class="empty-cart">
-      <div style="font-size:44px;margin-bottom:10px">🛒</div>
-      <div style="font-size:15px;font-weight:700">Your cart is empty</div>
-      <div style="font-size:13px;color:var(--text3);margin-top:6px">Go to Food Explorer to add items</div>
-      <a href="food.html" class="btn btn-primary btn-sm" style="margin-top:14px;display:inline-flex">Browse Foods →</a>
-    </div>`;
-    document.getElementById("paymentCard").style.display = "none";
-    document.getElementById("cartWrap").style.borderColor = "var(--border)";
-    return;
-  }
-
-  list.innerHTML = cart.map((item, i) => `
-    <div class="cart-item" id="ci-${i}">
-      <div>
-        <div class="cart-item-name">${item.name}</div>
-        <div style="font-size:12px;color:var(--text3)">Fermented Food</div>
-      </div>
-      <div class="cart-item-right">
-        <span class="cart-item-price">₹${item.price}</span>
-        <div class="cart-item-del" onclick="removeItem(${i})">✕</div>
-      </div>
-    </div>`).join("");
-
-  // Swipe to remove
-  initSwipeDel('.cart-item', el => {
-    const idx = parseInt(el.id.replace('ci-',''));
-    if (!isNaN(idx)) removeItem(idx);
-  });
-
-  generateQR();
-}
-
-function removeItem(i) {
-  cart.splice(i, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderCart();
-  toast("Item removed", "ok");
-}
-
-function clearCart() {
-  if (!cart.length) return;
-  cart = [];
-  localStorage.removeItem("cart");
-  renderCart();
-  toast("Cart cleared", "ok");
-}
-
-function selectPay(method) {
-  payMethod = method;
-  ["upi","card","cod"].forEach(m => {
-    document.getElementById("po-"+m).classList.toggle("selected", m === method);
-  });
-  document.getElementById("upiDetails").style.display  = method === "upi"  ? "block" : "none";
-  document.getElementById("cardDetails").style.display = method === "card" ? "block" : "none";
-  if (method === "upi") generateQR();
-}
-
-function generateQR() {
-  const upis = ["gpay","paytm","phonepe","okaxis"];
-  const upi  = "user" + Math.floor(Math.random()*9000+1000) + "@" + upis[Math.floor(Math.random()*upis.length)];
-  document.getElementById("upiIdText").textContent = upi;
-  document.getElementById("qrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent("upi://pay?pa="+upi+"&pn=NutriTrack&am="+total)}`;
-}
-
-function launchConfetti() {
-  const colors = ["#00f5a0","#00d4ff","#ffb347","#ff4d6d","#ffffff"];
-  for (let i = 0; i < 80; i++) {
-    const p = document.createElement("div");
-    p.className = "confetti-piece";
-    const size = Math.random() * 10 + 5;
-    p.style.cssText = `
-      left:${Math.random()*100}vw;
-      width:${size}px; height:${size}px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      animation-duration:${Math.random()*2+1.5}s;
-      animation-delay:${Math.random()*0.5}s;
-    `;
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 3500);
-  }
-}
-
-function confirmOrder() {
-  if (!cart.length) { toast("Cart is empty!", "warn"); return; }
-  localStorage.removeItem("cart");
-  launchConfetti();
-  document.getElementById("tyOverlay").classList.add("show");
-  setTimeout(() => window.location.href = "index.html", 3200);
-}
-
-renderCart();
-</script>
+  <script src="js/local-db.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/cart.js"></script>
 </body>
 </html>

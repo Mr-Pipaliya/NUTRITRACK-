@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (cartItems.length === 0) {
     showToast('Cart is empty', 'warning');
-    setTimeout(() => window.location.href = 'store.html', 1500);
+    setTimeout(() => window.location.href = 'food.html', 1500);
     return;
   }
   

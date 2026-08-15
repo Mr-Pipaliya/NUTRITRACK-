@@ -20,7 +20,7 @@ function loadOrders() {
       <div style="text-align: center; padding: 40px; color: var(--text3);">
         <i class="fas fa-box-open fa-2x" style="opacity: 0.5; margin-bottom: 12px;"></i>
         <p>You haven't placed any orders yet.</p>
-        <a href="store.html" class="btn btn-outline" style="margin-top: 16px;">Shop Now</a>
+        <a href="food.html" class="btn btn-outline" style="margin-top: 16px;">Shop Now</a>
       </div>
     `;
     return;

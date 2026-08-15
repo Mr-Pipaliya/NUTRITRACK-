@@ -10,7 +10,7 @@ const LocalDB = {
     const email = localStorage.getItem('nt_currentUser');
     if (!email) return null;
     const users = LocalDB.getUsers();
-    return users[email] || null;
+    return users[email] ? email : null;
   },
   
   setCurrentUser: (email) => {

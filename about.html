@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — NutriTrack+</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    .about-section { margin-bottom: 32px; }
+    .about-title { font-size: 24px; font-weight: 900; margin-bottom: 12px; color: var(--text); }
+    .about-text { font-size: 15px; line-height: 1.6; color: var(--text2); margin-bottom: 16px; }
+    .feature-list { display: flex; flex-direction: column; gap: 16px; }
+    .feature-item { display: flex; align-items: flex-start; gap: 16px; background: var(--bg2); padding: 16px; border-radius: var(--r-lg); border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+    .feature-item:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--primary); }
+    .feature-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(0, 245, 160, 0.15); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .feature-content h4 { font-size: 16px; font-weight: 800; margin-bottom: 4px; color: var(--text); }
+    .feature-content p { font-size: 14px; color: var(--text3); line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <nav class="navbar">
+    <div class="container" style="max-width: 800px;">
+      <div class="logo">
+        <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+        <span class="logo-text" style="font-size: 16px;">NutriTrack+</span>
+      </div>
+      <div class="nav-links">
+        <a href="dashboard.html"><i class="fas fa-home"></i><span class="nav-text">Home</span></a>
+        <a href="food.html"><i class="fas fa-book-open"></i><span class="nav-text">Food</span></a>
+        <a href="routine.html"><i class="fas fa-check-square"></i><span class="nav-text">Routine</span></a>
+        <a href="about.html" class="active"><i class="fas fa-info-circle"></i><span class="nav-text">About</span></a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="nav-text">Cart</span></a>
+        <a href="profile.html"><i class="fas fa-user"></i><span class="nav-text">Profile</span></a>
+        <button class="theme-toggle" style="width: 36px; height: 36px; border-radius: 12px; background: var(--surface); color: var(--text2); margin-left: 8px;"><i class="theme-icon fas fa-moon"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="app-container">
+    <header class="page-header" style="text-align: center; margin-bottom: 40px; margin-top: 20px; display: flex; flex-direction: column; align-items: center;">
+      <div class="logo-icon" style="width: 80px; height: 80px; font-size: 36px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-leaf"></i>
+      </div>
+      <h1 style="font-size: 32px; font-weight: 900; background: linear-gradient(135deg, var(--primary), var(--primary2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NutriTrack+</h1>
+      <p style="font-size: 16px; color: var(--text3); margin-top: 8px;">Your Premium Health & Nutrition Companion</p>
+    </header>
+
+    <div class="card about-section">
+      <h2 class="about-title">Our Mission</h2>
+      <p class="about-text">At NutriTrack+, we believe that achieving your health and fitness goals should be an empowering and seamless experience. We combine advanced tracking metrics, local Indian food databases, and personalized routines to help you lead a healthier life.</p>
+      <p class="about-text">Whether you're trying to lose weight, build muscle, or simply maintain a balanced diet, NutriTrack+ provides the insights and tools you need to succeed.</p>
+    </div>
+
+    <div class="about-section">
+      <h2 class="about-title" style="margin-left: 4px;">Why choose us?</h2>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon" style="background: rgba(0, 245, 160, 0.15); color: #00F5A0;"><i class="fas fa-chart-pie"></i></div>
+          <div class="feature-content">
+            <h4>Detailed Macro Tracking</h4>
+            <p>Log your daily meals and instantly see your protein, carbs, and fat breakdown to stay within your personal goals.</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon" style="background: rgba(0, 212, 255, 0.15); color: #00D4FF;"><i class="fas fa-apple-alt"></i></div>
+          <div class="feature-content">
+            <h4>Extensive Local Database</h4>
+            <p>A comprehensive database tailored with 75+ popular local foods, making logging easy and accurate.</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon" style="background: rgba(255, 179, 71, 0.15); color: #FFB347;"><i class="fas fa-dumbbell"></i></div>
+          <div class="feature-content">
+            <h4>Custom Workout Routines</h4>
+            <p>Follow expertly designed workout routines with progression tracking and rest timers to maximize your gains.</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon" style="background: rgba(99, 102, 241, 0.15); color: #6366F1;"><i class="fas fa-shopping-bag"></i></div>
+          <div class="feature-content">
+            <h4>Integrated Health Store</h4>
+            <p>Shop for premium fermented foods and quality supplements seamlessly integrated directly within your tracking app.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; padding: 40px 0 20px 0; color: var(--text3); font-size: 13px;">
+      <p>Version 2.0.0 &copy; 2026 NutriTrack+</p>
+      <p style="margin-top: 4px;">Designed with <i class="fas fa-heart" style="color: var(--danger);"></i> for better health</p>
+    </div>
+
+  </main>
+
+  <script src="js/local-db.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

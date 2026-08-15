@@ -131,7 +131,7 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   event.target.classList.add('active');
   
-  const views = ['browseView', 'searchView', 'recentView'];
+  const views = ['browseView', 'searchView', 'recentView', 'storeView'];
   views.forEach(v => {
     const el = document.getElementById(v);
     if (el) el.classList.add('hide');
@@ -340,7 +340,7 @@ function logSelectedFood() {
   
   const logData = {
     id: Date.now().toString(),
-    userId: currentUser.id,
+    userId: currentUser,
     date: todayStr,
     name: currentFoodObj.name,
     calories: currentFoodObj.cal * servings,

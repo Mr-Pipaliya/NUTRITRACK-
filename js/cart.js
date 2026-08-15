@@ -50,7 +50,7 @@ function renderCart() {
       <div style="text-align: center; padding: 40px; color: var(--text3);">
         <i class="fas fa-shopping-cart fa-2x" style="opacity: 0.5; margin-bottom: 12px;"></i>
         <p>Your cart is empty.</p>
-        <a href="store.html" class="btn btn-outline" style="margin-top: 16px;">Browse Store</a>
+        <a href="food.html" class="btn btn-outline" style="margin-top: 16px;">Browse Store</a>
       </div>
     `;
     summary.classList.add('hide');

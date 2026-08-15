@@ -42,7 +42,7 @@
         <a href="dashboard.html"><i class="fas fa-home"></i><span class="nav-text">Home</span></a>
         <a href="food.html" class="active"><i class="fas fa-book-open"></i><span class="nav-text">Food</span></a>
         <a href="routine.html"><i class="fas fa-check-square"></i><span class="nav-text">Routine</span></a>
-        <a href="store.html"><i class="fas fa-shopping-bag"></i><span class="nav-text">Store</span></a>
+        <a href="about.html"><i class="fas fa-info-circle"></i><span class="nav-text">About</span></a>
         <a href="cart.html"><i class="fas fa-shopping-cart"></i><span class="nav-text">Cart</span></a>
         <a href="profile.html"><i class="fas fa-user"></i><span class="nav-text">Profile</span></a>
         <button class="theme-toggle" style="width: 36px; height: 36px; border-radius: 12px; background: var(--surface); color: var(--text2); margin-left: 8px;"><i class="theme-icon fas fa-moon"></i></button>
@@ -62,6 +62,7 @@
         <button class="tab-btn active" onclick="switchTab('browse')">Categories</button>
         <button class="tab-btn" onclick="switchTab('search')">Search</button>
         <button class="tab-btn" onclick="switchTab('recent')">Recent</button>
+        <button class="tab-btn" onclick="switchTab('store')">Store</button>
       </div>
 
     <!-- Browse View -->
@@ -88,6 +89,20 @@
     <!-- Recent View -->
     <div id="recentView" class="hide">
       <div id="recentGrid" class="food-grid"></div>
+    </div>
+
+    <!-- Store View -->
+    <div id="storeView" class="hide">
+      <div style="margin-bottom: 24px; text-align: center;">
+        <h2 style="font-weight: 800; font-size: 20px; color: var(--text);">NutriShop</h2>
+        <p style="color: var(--text3); font-size: 14px; margin-top: 4px;">Premium fermented foods and supplements</p>
+      </div>
+      <div class="store-grid" id="productsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px;">
+        <div style="text-align: center; grid-column: 1/-1; padding: 40px; color: var(--text3);">
+          <i class="fas fa-spinner fa-spin fa-2x"></i>
+          <p style="margin-top: 12px;">Loading products...</p>
+        </div>
+      </div>
     </div>
 
   </main>
@@ -143,5 +158,6 @@
   <script src="js/local-db.js"></script>
   <script src="js/script.js"></script>
   <script src="js/food.js"></script>
+  <script src="js/store.js"></script>
 </body>
 </html>
